@@ -1,5 +1,5 @@
 Package.describe({
-    name: 'create-account',
+    name: 'buildboard-account',
     version: '0.0.1',
     // Brief, one-line summary of the package.
     summary: '',
@@ -12,19 +12,31 @@ Package.describe({
 
 Package.onUse(function (api) {
     api.use(['templating', 'reactive-var', 'iron:router'], 'client');
+    api.use(['ecmascript', 'underscore', 'session']);
+
     api.versionsFrom('1.2.1');
-    api.use(['ecmascript', 'underscore','session']);
+
     api.addFiles([
-        'createAccount.html',  'editAccount.html', 'toolSettings.html', 'toolSettings.js', 'create-account.js','editAccount.js'
+        'client/create-account.html',
+        'client/edit-account.html',
+        'client/tool-settings.html',
+        'client/tool-settings.js',
+        'client/create-account.js',
+        'client/edit-account.js'
     ], 'client');
-    api.addFiles(['settingsModel.js', 'accountModel.js'], 'server');
+
+    api.addFiles([
+        'server/tool-settings-model.js',
+        'server/account-model.js'
+    ], 'server');
+
     api.use('less');
-    api.addFiles('create-account.less');
+    api.addFiles('client/less/create-account.less');
 });
 
 Package.onTest(function (api) {
     api.use('ecmascript');
     api.use('tinytest');
-    api.use('create-account');
-    api.addFiles('create-account-tests.js');
+    api.use('buildboard-account');
+    api.addFiles('tests/buildboard-account.js');
 });

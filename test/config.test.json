@@ -1,0 +1,44 @@
+{
+  "github": {
+    "clientId": "test",
+    "loginStyle": "popup",
+    "secret": "test"
+  },
+  "url": "http://localhost",
+  "secret": "none",
+  "tools": [
+    {
+      "type": "PMTool",
+      "name": "PM Tool",
+      "tools": [
+        {
+          "id": "tp",
+          "name": "Targetprocess",
+          "port": "3333"
+        }
+      ]
+    },
+    {
+      "type": "CodeTool",
+      "name": "Code Tool",
+      "tools": [
+        {
+          "id": "github",
+          "name": "GitHub",
+          "port": "3334"
+        }
+      ]
+    },
+    {
+      "type": "BuildTool",
+      "name": "Build Tool",
+      "tools": [
+        {
+          "id": "travis",
+          "name": "Travis",
+          "port": "3335"
+        }
+      ]
+    }
+  ]
+}

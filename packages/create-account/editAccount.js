@@ -4,14 +4,17 @@ Template.editAccount.helpers({
         var mergedTools = tools.get();
         if (this.tools) {
             _.each(this.tools, (values, key)=> {
-                mergedTools.forEach((t)=>{
-                    if(t.type === key) {
+                mergedTools.forEach((t)=> {
+                    if (t.type === key) {
                         t.currentValue = values;
                     }
                 });
             })
         }
         return mergedTools;
+    },
+    error() {
+        return Session.get('accountPage');
     }
 });
 
@@ -21,6 +24,7 @@ Meteor.call('initTools', function (e, ts) {
         return item;
     }));
 });
+Session.setDefault('accountPage', '');
 Template.editAccount.events({
     'submit form'(e, t) {
         e.preventDefault();
@@ -39,7 +43,7 @@ Template.editAccount.events({
             if (err) {
                 alert(JSON.stringify(err))
             } else {
-                alert('Успех')
+                Session.set('accountPage', _.pluck(result, 'error').join(','));
             }
         })
     }

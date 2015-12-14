@@ -7,7 +7,7 @@
             <div>
                 {{#if currentValue}}
                     <div>
-                        Project tool: {{currentTool}}
+                        Project tool: <a class="js-edit">{{currentTool}}</a>
                         <input type="hidden" class="js-tool js-{{type}}" name="toolId" value="{{currentValue.toolId}}">
                     </div>
                 {{else}}
@@ -25,7 +25,7 @@
                 <div>
 
                     <div class="mdl-textfield mdl-js-textfield">
-                        <input autocomplete="off" name="{{name}}" required="{{#if isRequire}}required{{/if}}"
+                        <input autocomplete="off" name="{{name}}" value="{{currentValue}}" required="{{#if isRequire}}required{{/if}}"
                                class="mdl-textfield__input {{jsClass ..}}" type="text"/>
                         <label class="mdl-textfield__label">{{caption}}</label>
                     </div>

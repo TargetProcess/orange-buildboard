@@ -14,30 +14,30 @@ Meteor.methods({
         if (account && account._id !== id) {
             throw Meteor.Error('Account with this name exists');
         } else {
-            var tools = _.reduce(settings.tools, function (tools, tool, key) {
-                if (tool.toolId === 'None') {
-                    return tools;
-                }
-                tools[key] = {
+            var tools = _.chain(settings.tools).map((tool, key)=> {
+                tool.type = key;
+                return tool;
+            }).reject((tool)=> {
+                return tool.toolId === 'None' || _.isEmpty(_.omit(tool, 'toolId', 'type'));
+            }).map((tool) => {
+                var tools = account.tools || {};
+                tools[tool.type] = {
                     accountToken,
                     toolId: tool.toolId
                 };
                 var params = {
                     accountToken,
-                    config: _.omit(tool, 'toolId')
+                    config: _.omit(tool, 'toolId', 'type')
                 };
-                createToolAccount(key, tool.toolId, id, params).then(
-                    (data)=>{
-                        console.log(data)
-                    }
-                ).catch((err)=>{
-                    console.log(err);
+                return createToolAccount(tool.type, tool.toolId, id, params).then(()=> {
+                    BuildBoardAccounts.update(id, {$set: {id: settings.id, tools: tools}});
+                }).catch((e)=> {
+                    return {error: e.response.data};
                 });
-                return tools;
-            }, {});
-
-            BuildBoardAccounts.update(id, {$set: {id: settings.id, tools: tools}});
-            return {res: true};
+            }).value();
+            return Promise.all(tools).then((results)=> {
+                return results;
+            });
         }
     },
     initTools() {

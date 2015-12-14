@@ -3,4 +3,4 @@
 .idea/
 public/components
 config.json
-packages/npm-container/.npm/
+packages/npm-container/

@@ -1,1 +1,1 @@
-meteor test-packages
+meteor "$@"

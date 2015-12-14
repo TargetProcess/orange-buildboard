@@ -1,0 +1,84 @@
+[
+  {
+    "_id": "5cXDA54tmn3wqDfiX",
+    "account": "buildboard",
+    "branch": {
+      "branchId": "feature/us3_test",
+      "name": "feature/us3_test",
+      "sha": "a5a5a60955b885714db30374645c2dfede9d1e88",
+      "pullRequests": [],
+      "builds": []
+    },
+    "task": null
+  },
+  {
+    "_id": "HEB9qhjmFJXavuHyc",
+    "account": "buildboard",
+    "branch": {
+      "branchId": "feature/us2_simple",
+      "name": "feature/us2_simple",
+      "sha": "aba3bfda6b1fbe4f256176168374748610c160ee",
+      "pullRequests": [
+        {
+          "id": 2,
+          "status": "open",
+          "sha": "549665692e03acd39e9dd0228d402829690c2f18",
+          "builds": []
+        },
+        {
+          "id": 1,
+          "status": "open",
+          "sha": "82bffda5abb2b9a23505977066b36395827472c0",
+          "builds": [
+            {
+              "buildId": 94849771,
+              "started": "2015-12-04T11:15:36Z",
+              "finished": "2015-12-04T11:15:48Z",
+              "duration": 12,
+              "sha": "82bffda5abb2b9a23505977066b36395827472c0",
+              "pullRequest": 1,
+              "branch": "master",
+              "status": "passed"
+            }
+          ]
+        }
+      ],
+      "builds": [
+        {
+          "buildId": 94849765,
+          "started": "2015-12-04T11:15:37Z",
+          "finished": "2015-12-04T11:15:57Z",
+          "duration": 20,
+          "sha": "aba3bfda6b1fbe4f256176168374748610c160ee",
+          "pullRequest": null,
+          "branch": "feature/us2_simple",
+          "status": "passed"
+        }
+      ]
+    },
+    "task": {
+      "id": 2,
+      "type": "UserStory",
+      "name": "Get data from TP",
+      "state": {
+        "id": 78,
+        "name": "Open"
+      },
+      "created": "2015-11-30T09:45:34.0000000",
+      "lastModified": "2015-11-30T09:45:34.0000000"
+    }
+  },
+  {
+    "_id": "kEL2miz8FR9scBhhE",
+    "account": "buildboard",
+    "branch": {
+      "branchId": "master",
+      "name": "master",
+      "sha": "4f6ee3fef8e3faa906b42c87a7de8fcdd94d7d5e",
+      "pullRequests": [],
+      "builds": []
+    },
+    "task": null
+  }
+]
+

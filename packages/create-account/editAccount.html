@@ -1,0 +1,21 @@
+<template name="editAccount">
+    <div class="demo-card-wide mdl-shadow--2dp mdl-card">
+        <form>
+            <div class="mdl-card__title">
+                <h2 class="mdl-card__title-text">Account settings:</h2>
+            </div>
+            <div class="mdl-card__supporting-text">
+                <div class="mdl-textfield mdl-js-textfield">
+                    <input autocomplete="off" id="account-name" value={{id}} class="mdl-textfield__input" type="text"/>
+                    <label class="mdl-textfield__label" for="login-email">account name</label>
+                </div>
+            </div>
+            {{#each tools}}
+                {{>toolSettings}}
+            {{/each}}
+            <div class="mdl-card__actions mdl-card--border">
+                <button class="mdl-button mdl-button--colored mdl-js-button mdl-js-ripple-effect">Save account</button>
+            </div>
+        </form>
+    </div>
+</template>

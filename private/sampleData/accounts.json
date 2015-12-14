@@ -1,0 +1,24 @@
+[
+  {
+    "_id": "GPc6JsqaBsvdyhJSp",
+    "id": "buildboard",
+    "token": "buildboardtoken",
+    "tools": {
+      "pm": {
+        "url": "http://localhost:3333"
+      },
+      "code": {
+        "url": "http://localhost:3334"
+      },
+      "build": {
+        "url": "http://localhost:3335"
+      }
+    },
+    "users": [],
+    "mappings": {
+      "items": [],
+      "users": []
+    }
+  }
+]
+

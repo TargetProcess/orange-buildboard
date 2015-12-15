@@ -1,4 +1,9 @@
+sudo: required
 language: node_js
+addons:
+  - firefox
+env:
+  - JASMINE_BROWSER=Firefox
 node_js:
   - "0.12"
 before_install:

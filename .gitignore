@@ -1,6 +1,7 @@
 .meteor/local
 .meteor/meteorite
 .idea/
+node_modules/
 public/components
 config.json
 packages/npm-container/

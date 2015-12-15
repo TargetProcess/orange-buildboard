@@ -36,7 +36,7 @@ Package.onUse(function (api) {
 
 Package.onTest(function (api) {
     api.use('ecmascript');
-    api.use('tinytest');
     api.use('buildboard-account');
+    api.use('sanjo:jasmine@0.20.3');
     api.addFiles('tests/buildboard-account.js');
 });

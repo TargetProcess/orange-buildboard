@@ -1,9 +1,6 @@
-sudo: required
+sudo:required
 language: node_js
 node_js:
   - "0.12"
 before_install:
-  - "curl -L http://git.io/ejPSng | /bin/sh"
-  - "chmod +x travis.sh"
-env:
-  TEST_COMMAND=./travis.sh
+  - "curl -L https://raw.githubusercontent.com/sf-wind/meteor-velocity-travis-ci/master/configure.sh | /bin/sh"

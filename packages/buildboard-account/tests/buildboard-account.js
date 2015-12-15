@@ -1,4 +1,5 @@
-Tinytest.add('example', function (test) {
-  test.equal(true, false);
+describe('sanjo:jasmine on client', function () {
+  it('works', function () {
+    expect(error).toBeDefined();
+  })
 });
-

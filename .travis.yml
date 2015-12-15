@@ -1,10 +1,10 @@
 sudo: required
 language: node_js
-addons:
-  - firefox
 env:
-  - JASMINE_BROWSER=Firefox
+  - JASMINE_BROWSER=firefox
 node_js:
   - "0.12"
 before_install:
-  - "curl https://install.meteor.com/ | sh"
+  - export DISPLAY=:99.0
+  - sh -e /etc/init.d/xvfb start
+  - curl https://install.meteor.com/ | sh

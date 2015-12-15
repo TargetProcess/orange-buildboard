@@ -8,10 +8,10 @@ Template.itemList.helpers({
         return !this.handle.ready();
     },
     items() {
-       return Items.find({}, {limit: this.handle.loaded() - 5});
+        return Items.find({}, {limit: this.handle.loaded() - 1});
     },
     showMore(){
         var handle = this.handle;
-        return handle.ready() && (Items.find({}, {limit: handle.loaded() - 5}).count() < Items.find({}).count());
+        return handle.ready() && (Items.find({}, {limit: handle.loaded() - 1}).count() < Items.find({}).count());
     }
 });

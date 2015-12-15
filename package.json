@@ -7,7 +7,7 @@
     "test": "tests"
   },
   "scripts": {
-    "test": "velocity test-package --ci --once"
+    "test": "velocity test-package --ci"
   },
   "repository": {
     "type": "git",

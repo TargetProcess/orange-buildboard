@@ -21,5 +21,8 @@
   "bugs": {
     "url": "https://github.com/buildboard/buildboard/issues"
   },
-  "homepage": "https://github.com/buildboard/buildboard#readme"
+  "homepage": "https://github.com/buildboard/buildboard#readme",
+  "devDependencies": {
+    "velocity-cli": "^0.4.3"
+  }
 }

@@ -11,34 +11,18 @@ Meteor.publish('accounts', function () {
     return BuildBoardAccounts.find();
 });
 
-
 Meteor.publish("tasks", function (account, limit, skip) {
     var tasks = Tasks.find({account}, {skip: parseInt(skip) || 0, limit: parseInt(limit) || 10});
-    var taskIds = tasks.map(x=>x.id);
 
-    var branches = Branches.find({
-        account,
-        $or: _.map(taskIds, id=>({id: {$regex: `feature\/(?:us|bug)(${id})`, $options: 'i'}}))
-
-    });
+    var branches = findBranchesForTasks(account, tasks);
 
     return [tasks, branches];
 });
 
 Meteor.publish("branches", function (account, limit, skip) {
     var branches = Branches.find({account}, {skip: parseInt(skip) || 0, limit: parseInt(limit) || 10});
-    var branchIds = branches.map(x=>x.id);
 
-    let branchRegex = /feature\/(?:us|bug)(\d+)\w*/ig;
-
-    var tasks = Tasks.find({
-        account,
-        $or: _.chain(branchIds)
-            .map(id=>(branchRegex.exec(id) || [])[1])
-            .compact()
-            .map(id=>({id: parseInt(id)}))
-            .value()
-    });
+    var tasks = findTasksForBranches(account, branches);
 
     return [branches, tasks];
 });

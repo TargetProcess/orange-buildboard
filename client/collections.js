@@ -5,7 +5,25 @@ Items = new Meteor.Collection(null);
 
 Tasks.find({}).observe({
     added: function (task) {
-        Items.upsert({"task.id": task.id}, {$set: {task}}, {multi: true});
+        var branches = findBranchesForTasks(task.account, [task]);
+        branches.forEach(branch=> {
+            Items.upsert({
+                'task.id': task.id,
+                'branch.id': branch.id
+            }, {$set: {task, branch}});
+
+            Items.remove({
+                "branch.id": branch.id,
+                task: {$exists: false}
+            });
+        });
+
+        if (branches.count() == 0) {
+            Items.insert({task});
+        }
+        else {
+            Items.remove({"task.id": task.id, branch: {$exists: false}})
+        }
     },
     changed: function (task) {
         Items.update({"task.id": task.id}, {$set: {task}}, {multi: true});
@@ -21,11 +39,32 @@ Tasks.find({}).observe({
 });
 Branches.find({}).observe({
     added: function (branch) {
-        Items.upsert({"branch.id": branch.id}, {$set: {branch}}, {multi: true});
+        var tasks = findTasksForBranches(branch.account, [branch]);
+        tasks.forEach(task=> {
+            Items.upsert({
+                'task.id': task.id,
+                'branch.id': branch.id
+            }, {$set: {task, branch}});
+
+            Items.remove({
+                "task.id": task.id,
+                branch: {$exists: false}
+
+            });
+        });
+        if (tasks.count() == 0) {
+            Items.insert({branch});
+        }
+        else {
+            Items.remove({"branch.id": branch.id, task: {$exists: false}})
+        }
     },
-    changed: function (branch) {
+
+
+    updated: function (branch) {
         Items.update({"branch.id": branch.id}, {$set: {branch}}, {multi: true});
     },
+
     removed: function (branch) {
         Items.remove({
             "branch.id": branch.id,

@@ -1,0 +1,25 @@
+{
+  "name": "buildboard",
+  "version": "1.0.0",
+  "description": "buildboard",
+  "main": "index.js",
+  "directories": {
+    "test": "tests"
+  },
+  "scripts": {
+    "test": "velocity test-package --ci --once"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/buildboard/buildboard.git"
+  },
+  "keywords": [
+    "buildboard"
+  ],
+  "author": "taucraft",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/buildboard/buildboard/issues"
+  },
+  "homepage": "https://github.com/buildboard/buildboard#readme"
+}

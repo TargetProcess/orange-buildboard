@@ -1,0 +1,12 @@
+[
+  {
+    "id": "test",
+    "tools": [
+      {
+        "id": "tp",
+        "token": "test",
+        "resources": ["task"]
+      }
+    ]
+  }
+]

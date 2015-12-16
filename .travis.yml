@@ -4,7 +4,6 @@ node_js:
   - "0.12"
 before_install:
   - export DISPLAY=:99.0
-  - export JASMINE_BROWSER=Firefox
   - sh -e /etc/init.d/xvfb start
   - curl https://install.meteor.com/ | sh
 env:

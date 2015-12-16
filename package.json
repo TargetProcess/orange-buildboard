@@ -7,7 +7,7 @@
     "test": "tests"
   },
   "scripts": {
-    "test": "JASMINE_BROWSER=Firefox velocity test-package --ci"
+    "test": "velocity test-package --ci"
   },
   "repository": {
     "type": "git",

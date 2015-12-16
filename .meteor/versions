@@ -73,6 +73,7 @@ mongo-id@1.0.1
 mquandalle:bower@1.5.2_1
 msavin:mongol@1.6.2
 npm-bcrypt@0.7.8_2
+npm-container@1.2.0
 npm-mongo@1.4.39_1
 oauth@1.1.6
 oauth2@1.1.5

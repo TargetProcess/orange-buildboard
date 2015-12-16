@@ -19,10 +19,14 @@ Package.onUse(function (api) {
     api.addFiles([
         'client/create-account.html',
         'client/edit-account.html',
-        'client/tool-settings.html',
-        'client/tool-settings.js',
+        'client/account-item.html',
+        'client/account-list.html',
+        'client/tools/tool-item.html',
+        'client/tools/tool-item.js',
         'client/create-account.js',
-        'client/edit-account.js'
+        'client/edit-account.js',
+        'client/account-item.js',
+        'client/account-list.js'
     ], 'client');
 
     api.addFiles([
@@ -31,7 +35,7 @@ Package.onUse(function (api) {
     ], 'server');
 
     api.use('less');
-    api.addFiles('client/less/create-account.less');
+    api.addFiles(['client/less/create-account.less', 'client/tools/tool-item.less'], 'client');
 });
 
 Package.onTest(function (api) {

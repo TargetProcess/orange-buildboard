@@ -1,47 +1,46 @@
-findToolByTypeAndId = function (type, id) {
-    var tools = Meteor.settings.tools;
-    var tool = _.chain(tools)
-        .find(tool => tool.type === type)
-        .pick('tools').value();
-    return _.find(tool.tools, tool=>tool.id === id);
+var extendName = (item, key)=> {
+    return _.extend({name: key}, item);
 };
-createToolAccount = function (type, id, key, params) {
-    var settings = Meteor.settings;
-    var tool = findToolByTypeAndId(type, id);
-    var url = settings.url + ':' + tool.port + '/account/' + key + `?token=${settings.secret}`;
-    return new Promise(function (resolve, reject) {
-        HTTP.post(url, {data: params}, (err, result)=> {
-            if (err) {
-                reject(err);
-            } else {
-                resolve(result)
-            }
-        });
-    });
 
-};
 Meteor.methods({
-    getToolsSettings(t, account) {
-        var settings = Meteor.settings;
-        var tool = findToolByTypeAndId(t.type, t.id);
-        var url = settings.url + ':' + tool.port;
-        var accountSettings = {};
-        if(account) {
-            var accountUrl = settings.url + ':' + tool.port + '/account/' + account + `?token=${settings.secret}`;
-            try {
-                accountSettings = HTTP.get(accountUrl).data.config;
-            } catch(e) {
-                accountSettings = {};
-            }
-
+    getToolSettings(t) {
+        var currentSettings = {
+            config: {}
+        };
+        if (t.accountToken) {
+            currentSettings = Tool.getToolSettings(t);
         }
 
-        return _.map(HTTP.get(url).data.settings, (obj, key)=> {
-            if(accountSettings[key]) {
-                obj.currentValue = accountSettings[key];
+        return Promise.all([Tool.getMetaSettings(t), currentSettings]).then(([metaSettings, currentSettings])=> {
+            return {
+                settings: _.map(metaSettings.settings, (setting, key)=> {
+                    return _.extend({name: key, currentValue: currentSettings.config[key]}, setting)
+                }),
+                methods: _.map(metaSettings.methods, extendName)
+            };
+        })
+    },
+    saveToolSettings(accountId, formData) {
+        var account = BuildBoardAccounts.findOne({id: accountId});
+
+        return Tool.saveToolSettings({
+            accountToken: formData.settings.accountToken,
+            settings: formData.settings,
+            url: formData.tool.url,
+            toolId: formData.tool.id
+        }).then(function ({accountToken}) {
+            var tools = account.tools || [];
+            if (!tools.find(tool=>tool.accountToken === accountToken)) {
+                tools.push({
+                    accountToken,
+                    id: formData.tool.id,
+                    resources: formData.resources
+                })
             }
-            obj.name = key;
-            return obj;
+            BuildBoardAccounts.update({_id: account._id}, {$set: {tools: tools}});
+            return true;
+        }).catch((e)=> {
+            throw Meteor.Error(JSON.stringify(e));
         });
     }
 });

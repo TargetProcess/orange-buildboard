@@ -1,0 +1,38 @@
+<template name="toolItem">
+    <div class="mdl-card__supporting-text">
+        <form>
+            {{#if currentValue}}
+                <div>
+                    Tool: <a class="js-edit">{{currentValue.id}}</a>
+                    <input type="hidden" class="js-tool" name="id" value="{{currentValue.id}}">
+                    <input type="hidden" class="js-setting" name="accountToken" value="{{currentValue.accountToken}}">
+                </div>
+            {{else}}
+                <label for="{{type}}">Choose tool</label>
+                <select class="js-tool" name="id" id="{{type}}">
+                    <option>None</option>
+                    {{#each tools}}
+                        <option value="{{id}}">{{name}}</option>
+                    {{/each}}
+                </select>
+            {{/if}}
+
+            {{#each settings}}
+                <div>
+                    <div class="mdl-textfield mdl-js-textfield">
+                        <input autocomplete="off" name="{{name}}" value="{{currentValue}}"
+                               required="{{#if isRequire}}required{{/if}}"
+                               class="mdl-textfield__input js-setting" type="text"/>
+                        <label class="mdl-textfield__label">{{caption}}</label>
+                    </div>
+                </div>
+            {{/each}}
+            {{#if showSave}}
+                <div class="tool-add">
+                    <button class="mdl-button js-save mdl-button--colored mdl-js-button mdl-js-ripple-effect">Save tool
+                    </button>
+                </div>
+            {{/if}}
+        </form>
+    </div>
+</template>

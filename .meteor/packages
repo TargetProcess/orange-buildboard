@@ -34,3 +34,7 @@ reactive-var
 buildboard-account
 meteorhacks:npm
 cosmos:browserify
+jparker:crypto-core
+
+
+npm-container

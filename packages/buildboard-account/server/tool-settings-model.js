@@ -25,7 +25,9 @@ Meteor.methods({
                 }),
                 methods: _.map(metaSettings.methods, extendName)
             };
-        })
+        }).catch((e)=>{
+            throw new Meteor.Error("getToolSetting", e.join('\n'));
+        });
     },
     saveToolSettings(accountId, formData) {
         var account = BuildBoardAccounts.findOne({id: accountId});
@@ -47,7 +49,7 @@ Meteor.methods({
             BuildBoardAccounts.update({_id: account._id}, {$set: {tools: tools}});
             return true;
         }).catch((e)=> {
-            throw Meteor.Error(JSON.stringify(e));
+            throw new Meteor.Error("saveAccount", e.join('\n'));
         });
     }
 });

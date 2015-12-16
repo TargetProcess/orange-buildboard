@@ -1,17 +1,19 @@
+var handleSettings = (t)=>(err, res)=> {
+    if (err) {
+        alert(err.reason);
+    }
+    t.data.reactToolData.set(res);
+};
 Template.toolItem.events({
     'change .js-tool'(e, t) {
         t.data.reactToolData.set({});
         if (e.target.value !== 'None') {
-            Meteor.call('getToolSettings', {id: e.target.value}, (err, res)=> {
-                t.data.reactToolData.set(res);
-            });
+            Meteor.call('getToolSettings', {id: e.target.value}, handleSettings(t));
         }
     },
     'click .js-edit'(e, t) {
         t.data.reactToolData.set({});
-        Meteor.call('getToolSettings', t.data.currentValue, (err, res)=> {
-            t.data.reactToolData.set(res);
-        });
+        Meteor.call('getToolSettings', t.data.currentValue, handleSettings(t));
     },
     'submit form'(e, t) {
         e.preventDefault();
@@ -38,11 +40,8 @@ Template.toolItem.events({
             formData
             , (err, res)=> {
                 if (err) {
-                    alert(err);
-                } else {
-                    alert('успех');
+                    alert(err.reason);
                 }
-
             });
     }
 });

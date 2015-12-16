@@ -7,6 +7,14 @@ var generateToken = ()=> {
     return CryptoJS.MD5((new Date()).toString()).toString();
 };
 
+var getErrorData = (err)=> {
+    if (err.code == 'ECONNREFUSED') {
+        return ["Tool isn't available"];
+    } else {
+        return err.response && err.response.data || ['Unknown error'];
+    }
+};
+
 Tool = {
     findToolById: findToolById,
     getAll(config, resource) {
@@ -28,7 +36,7 @@ Tool = {
         return new Promise((resolve, reject)=> {
             HTTP.get(url, (err, res)=> {
                 if (err) {
-                    reject(err);
+                    reject(getErrorData(err));
                 } else {
                     resolve(res.data);
                 }
@@ -42,7 +50,7 @@ Tool = {
         return new Promise(function (resolve, reject) {
             HTTP.get(apiUrl, (err, result)=> {
                 if (err) {
-                    reject(err);
+                    reject(getErrorData(err));
                 } else {
                     resolve(result.data)
                 }
@@ -56,9 +64,8 @@ Tool = {
         return new Promise(function (resolve, reject) {
             HTTP.post(apiUrl, {data: {toolToken, config: settings}}, (err, result)=> {
                 if (err) {
-                    reject(err);
+                    reject(getErrorData(err));
                 } else {
-                    console.log(result.data);
                     resolve(result.data)
                 }
             });

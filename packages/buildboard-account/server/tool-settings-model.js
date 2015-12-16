@@ -2,16 +2,23 @@ var extendName = (item, key)=> {
     return _.extend({name: key}, item);
 };
 
+function getDefaultSettings(toolId) {
+    var tool = Tool.findToolById(toolId);
+
+    return (tool && tool.defaults) || {};
+}
+
 Meteor.methods({
-    getToolSettings(t) {
+    getToolSettings(tool) {
         var currentSettings = {
-            config: {}
+            config: getDefaultSettings(tool.id)
         };
-        if (t.toolToken) {
-            currentSettings = Tool.getToolSettings(t);
+
+        if (tool.toolToken) {
+            currentSettings = Tool.getToolSettings(tool);
         }
 
-        return Promise.all([Tool.getMetaSettings(t), currentSettings]).then(([metaSettings, currentSettings])=> {
+        return Promise.all([Tool.getMetaSettings(tool), currentSettings]).then(([metaSettings, currentSettings])=> {
             return {
                 settings: _.map(metaSettings.settings, (setting, key)=> {
                     return _.extend({name: key, currentValue: currentSettings.config[key]}, setting)

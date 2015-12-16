@@ -8,6 +8,7 @@ var generateToken = ()=> {
 };
 
 Tool = {
+    findToolById: findToolById,
     getAll(config, resource) {
 
         var urlBase = config.url || findToolById(config.id).url;
@@ -57,6 +58,7 @@ Tool = {
                 if (err) {
                     reject(err);
                 } else {
+                    console.log(result.data);
                     resolve(result.data)
                 }
             });

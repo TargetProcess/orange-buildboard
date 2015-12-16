@@ -10,7 +10,7 @@ Tool = class Tool {
 
         var urlBase = config.url || findToolById(config.id).url;
 
-        var url = `${urlBase}/${resource}?token=${config.token}&take=1000`;
+        var url = `${urlBase}/${resource}?token=${config.accountToken}&take=1000`;
 
         var result = [];
         while (url) {

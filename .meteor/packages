@@ -32,3 +32,5 @@ jparker:gravatar
 tinytest
 reactive-var
 buildboard-account
+meteorhacks:npm
+cosmos:browserify

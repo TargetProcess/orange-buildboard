@@ -2,75 +2,54 @@ Meteor.subscribe("userData");
 
 Items = new Meteor.Collection(null);
 
+_.chain(collections)
+    .values()
+    .filter(collection=>collection.opposite)
+    .each(collecion=> {
+        var oppositeCollection = collections[collecion.opposite];
+        var itemName = collecion.item;
+        var oppositeItemName = oppositeCollection.item;
+        let itemId = itemName + '.id';
+        let oppositeId = oppositeItemName + '.id';
 
-Tasks.find({}).observe({
-    added: function (task) {
-        var branches = findBranchesForTasks(task.account, [task]);
-        branches.forEach(branch=> {
-            Items.upsert({
-                'task.id': task.id,
-                'branch.id': branch.id
-            }, {$set: {task, branch}});
+        collecion.collection
+            .find({})
+            .observe({
+                added: function (item) {
+                    var opposites = collecion.mapToOpposite(item.account, [item]);
+                    opposites.forEach(opposite=> {
 
-            Items.remove({
-                "branch.id": branch.id,
-                task: {$exists: false}
-            });
-        });
+                        Items.upsert({
+                            [itemId]: item.id,
+                            [oppositeId]: opposite.id
+                        }, {$set: {[itemName]: item, [oppositeItemName]: opposite}});
 
-        if (branches.count() == 0) {
-            Items.insert({task});
-        }
-        else {
-            Items.remove({"task.id": task.id, branch: {$exists: false}})
-        }
-    },
-    changed: function (task) {
-        Items.update({"task.id": task.id}, {$set: {task}}, {multi: true});
-    },
-    removed: function (task) {
-        Items.remove({
-            "task.id": task.id,
-            branch: {$exists: false}
-        });
+                        Items.remove({
+                            [oppositeId]: opposite.id,
+                            [itemName]: {$exists: false}
+                        });
+                    });
 
-        Items.update({"task.id": task.id}, {$unset: {task}})
-    }
-});
-Branches.find({}).observe({
-    added: function (branch) {
-        var tasks = findTasksForBranches(branch.account, [branch]);
-        tasks.forEach(task=> {
-            Items.upsert({
-                'task.id': task.id,
-                'branch.id': branch.id
-            }, {$set: {task, branch}});
+                    if (opposites.count() == 0) {
+                        Items.insert({[itemName]: item});
+                    }
+                    else {
+                        Items.remove({
+                            [itemId]: item.id,
+                            [oppositeItemName]: {$exists: false}
+                        })
+                    }
+                },
+                changed: function (item) {
+                    Items.update({[itemId]: item.id}, {$set: {[itemName]: item}}, {multi: true});
+                },
+                removed: function (item) {
+                    Items.remove({
+                        [itemId]: item.id,
+                        [oppositeItemName]: {$exists: false}
+                    });
 
-            Items.remove({
-                "task.id": task.id,
-                branch: {$exists: false}
-
-            });
-        });
-        if (tasks.count() == 0) {
-            Items.insert({branch});
-        }
-        else {
-            Items.remove({"branch.id": branch.id, task: {$exists: false}})
-        }
-    },
-
-
-    updated: function (branch) {
-        Items.update({"branch.id": branch.id}, {$set: {branch}}, {multi: true});
-    },
-
-    removed: function (branch) {
-        Items.remove({
-            "branch.id": branch.id,
-            task: {$exists: false}
-        });
-
-        Items.update({"branch.id": branch.id}, {$unset: {branch}})
-    }
-});
+                    Items.update({[itemId]: item.id}, {$unset: {[itemName]: item}})
+                }
+            })
+    });

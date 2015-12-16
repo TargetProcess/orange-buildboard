@@ -7,7 +7,7 @@ Meteor.methods({
         var currentSettings = {
             config: {}
         };
-        if (t.accountToken) {
+        if (t.toolToken) {
             currentSettings = Tool.getToolSettings(t);
         }
 
@@ -24,15 +24,15 @@ Meteor.methods({
         var account = BuildBoardAccounts.findOne({id: accountId});
 
         return Tool.saveToolSettings({
-            accountToken: formData.settings.accountToken,
+            toolToken: formData.settings.toolToken,
             settings: formData.settings,
             url: formData.tool.url,
             toolId: formData.tool.id
-        }).then(function ({accountToken}) {
+        }).then(function ({toolToken}) {
             var tools = account.tools || [];
-            if (!tools.find(tool=>tool.accountToken === accountToken)) {
+            if (!tools.find(tool=>tool.toolToken === toolToken)) {
                 tools.push({
-                    accountToken,
+                    toolToken,
                     id: formData.tool.id,
                     resources: formData.resources
                 })

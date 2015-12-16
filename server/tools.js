@@ -12,7 +12,7 @@ Tool = {
 
         var urlBase = config.url || findToolById(config.id).url;
 
-        var url = `${urlBase}/${resource}?token=${config.accountToken}&take=1000`;
+        var url = `${urlBase}/${resource}?token=${config.toolToken}&take=1000`;
 
         var result = [];
         while (url) {
@@ -34,10 +34,10 @@ Tool = {
             })
         });
     },
-    getToolSettings({accountToken, settings, id:toolId, url}) {
-        accountToken = accountToken || generateToken();
+    getToolSettings({toolToken, settings, id:toolId, url}) {
+        toolToken = toolToken || generateToken();
         var urlBase = url || findToolById(toolId).url;
-        var apiUrl = `${urlBase}/account/${accountToken}?token=${Meteor.settings.secret}`;
+        var apiUrl = `${urlBase}/account/${toolToken}?token=${Meteor.settings.secret}`;
         return new Promise(function (resolve, reject) {
             HTTP.get(apiUrl, (err, result)=> {
                 if (err) {
@@ -48,12 +48,12 @@ Tool = {
             });
         });
     },
-    saveToolSettings({accountToken, settings, toolId, url}) {
-        accountToken = accountToken || generateToken();
+    saveToolSettings({toolToken, settings, toolId, url}) {
+        toolToken = toolToken || generateToken();
         var urlBase = url || findToolById(toolId).url;
-        var apiUrl = `${urlBase}/account/${accountToken}?token=${Meteor.settings.secret}`;
+        var apiUrl = `${urlBase}/account/${toolToken}?token=${Meteor.settings.secret}`;
         return new Promise(function (resolve, reject) {
-            HTTP.post(apiUrl, {data: {accountToken, config: settings}}, (err, result)=> {
+            HTTP.post(apiUrl, {data: {toolToken, config: settings}}, (err, result)=> {
                 if (err) {
                     reject(err);
                 } else {

@@ -49,7 +49,7 @@ _.chain(collections)
                         [oppositeItemName]: {$exists: false}
                     });
 
-                    Items.update({[itemId]: item.id}, {$unset: {[itemName]: item}})
+                    Items.update({[itemId]: item.id}, {$unset: {[itemName]: item}}, {multi: true})
                 }
             })
     });

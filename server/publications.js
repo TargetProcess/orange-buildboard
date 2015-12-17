@@ -7,10 +7,6 @@ Meteor.publish("userData", function () {
     }
 });
 
-Meteor.publish('accounts', function () {
-    return BuildBoardAccounts.find();
-});
-
 Meteor.publish("tasks", function (account, limit, skip) {
     var tasks = Tasks.find({account}, {skip: parseInt(skip) || 0, limit: parseInt(limit) || 10});
 

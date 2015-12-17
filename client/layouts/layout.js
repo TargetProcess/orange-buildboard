@@ -1,6 +1,9 @@
 Template.layout.helpers({
     showArrowBack() {
         return false;// Router.current().route.getName()
+    },
+    isLogged() {
+      return Meteor.userId();
     }
 });
 

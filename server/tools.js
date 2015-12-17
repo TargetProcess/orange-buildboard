@@ -25,9 +25,9 @@ Tool = {
 
         var result = [];
         while (url) {
-            var items = HTTP.get(url).data;
-            result = result.concat(items[resource]);
-            url = items.next;
+            var data = HTTP.get(url).data;
+            result = result.concat(data.items);
+            url = data.next;
         }
         return result;
     },

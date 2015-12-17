@@ -25,7 +25,7 @@ Meteor.methods({
                 }),
                 methods: _.map(metaSettings.methods, extendName)
             };
-        }).catch((e)=>{
+        }).catch((e)=> {
             throw new Meteor.Error("getToolSetting", e.join('\n'));
         });
     },
@@ -39,12 +39,21 @@ Meteor.methods({
             toolId: formData.tool.id
         }).then(function ({toolToken}) {
             var tools = account.tools || [];
-            if (!tools.find(tool=>tool.toolToken === toolToken)) {
-                tools.push({
-                    toolToken,
-                    id: formData.tool.id,
-                    resources: formData.resources
-                })
+            var index = tools.findIndex(tool=>tool.toolToken === toolToken);
+            var isUniqueName = tools.find(tool=> tool.toolToken !== toolToken && tool.name === formData.tool.name);
+            if (isUniqueName) {
+                return Promise.reject(['Name should be unique within current account']);
+            }
+            var tool = {
+                toolToken,
+                name: formData.tool.name,
+                id: formData.tool.id,
+                resources: formData.resources
+            };
+            if (index !== -1) {
+                tools[index] = tool
+            } else {
+                tools.push(tool)
             }
             BuildBoardAccounts.update({_id: account._id}, {$set: {tools: tools}});
             return true;

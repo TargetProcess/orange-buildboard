@@ -12,9 +12,11 @@ Package.describe({
 
 Package.onUse(function (api) {
     api.use(['templating', 'reactive-var', 'iron:router'], 'client');
-    api.use(['ecmascript', 'underscore', 'session']);
+    api.use(['ecmascript', 'underscore', 'session', 'mongo', 'check']);
 
     api.versionsFrom('1.2.1');
+
+    api.addFiles('lib/collections.js', ['client', 'server']);
 
     api.addFiles([
         'client/create-account.html',
@@ -31,11 +33,14 @@ Package.onUse(function (api) {
 
     api.addFiles([
         'server/tool-settings-model.js',
-        'server/account-model.js'
+        'server/account-model.js',
+        'server/publications.js'
     ], 'server');
 
     api.use('less');
     api.addFiles(['client/less/create-account.less', 'client/tools/tool-item.less'], 'client');
+
+    api.export('BuildBoardAccounts');
 });
 
 Package.onTest(function (api) {

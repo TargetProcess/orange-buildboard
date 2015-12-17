@@ -8,8 +8,10 @@ function getDefaultSettings(toolId) {
     return (tool && tool.defaults) || {};
 }
 
+
 Meteor.methods({
     getToolSettings(tool) {
+        check(this.userId, String);
         var currentSettings = {
             config: getDefaultSettings(tool.id)
         };
@@ -30,10 +32,11 @@ Meteor.methods({
         });
     },
     saveToolSettings(accountId, formData) {
+        check(this.userId, String);
         var account = BuildBoardAccounts.findOne({id: accountId});
 
         return Tool.saveToolSettings({
-            toolToken: formData.settings.toolToken,
+            toolToken: formData.tool.toolToken,
             settings: formData.settings,
             url: formData.tool.url,
             toolId: formData.tool.id

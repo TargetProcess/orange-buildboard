@@ -1,8 +1,10 @@
 var handleSettings = (t)=>(err, res)=> {
     if (err) {
         alert(err.reason);
+    } else {
+        t.data.reactToolData.set(res);
     }
-    t.data.reactToolData.set(res);
+
 };
 Template.toolItem.events({
     'change .js-tool'(e, t) {
@@ -31,7 +33,7 @@ Template.toolItem.events({
             values[el.name] = el.value;
             return values
         }, {});
-        formData.tool = t.findAll('.js-tool').reduce(function (values, el) {
+        formData.tool = t.findAll('.js-tool-field').reduce(function (values, el) {
             values[el.name] = el.value;
             return values
         }, {});
@@ -45,9 +47,7 @@ Template.toolItem.events({
             });
     }
 });
-Template.toolItem.onCreated(function () {
-    this.data.reactToolData = new ReactiveVar({});
-});
+
 Template.toolItem.helpers({
     settings() {
         return this.reactToolData.get().settings;

@@ -3,18 +3,29 @@
         <form>
             {{#if currentValue}}
                 <div>
-                    Tool: <a class="js-edit">{{currentValue.id}}</a>
-                    <input type="hidden" class="js-tool" name="id" value="{{currentValue.id}}">
+                    Tool:{{currentValue.name}} <a class="js-edit">edit</a>
+                    <input type="hidden" class="js-tool js-tool-field" name="id" value="{{currentValue.id}}">
+                    <input type="hidden" class="js-tool-field" name="name" value="{{currentValue.name}}">
                     <input type="hidden" class="js-setting" name="toolToken" value="{{currentValue.toolToken}}">
                 </div>
             {{else}}
                 <label for="{{type}}">Choose tool</label>
-                <select class="js-tool" name="id" id="{{type}}">
+                <select class="js-tool js-tool-field" name="id" id="{{type}}">
                     <option>None</option>
                     {{#each tools}}
                         <option value="{{id}}">{{name}}</option>
                     {{/each}}
                 </select>
+                {{#if showSave}}
+                    <div>
+                        <div class="mdl-textfield mdl-js-textfield">
+                            <input autocomplete="off" name="name" value=""
+                                   required="required"
+                                   class="mdl-textfield__input js-tool-field" type="text"/>
+                            <label class="mdl-textfield__label">Name</label>
+                        </div>
+                    </div>
+                {{/if}}
             {{/if}}
 
             {{#each settings}}

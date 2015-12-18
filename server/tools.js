@@ -9,7 +9,7 @@ var generateToken = ()=> {
 
 var getErrorData = (err)=> {
     if (err.code == 'ECONNREFUSED') {
-        return ["Tool isn't available"];
+        return ['Tool isn\'t available'];
     } else {
         return err.response && err.response.data || ['Unknown error'];
     }
@@ -40,7 +40,7 @@ Tool = {
                 } else {
                     resolve(res.data);
                 }
-            })
+            });
         });
     },
     getToolSettings({toolToken, settings, id:toolId, url}) {
@@ -52,7 +52,7 @@ Tool = {
                 if (err) {
                     reject(getErrorData(err));
                 } else {
-                    resolve(result.data)
+                    resolve(result.data);
                 }
             });
         });
@@ -66,7 +66,7 @@ Tool = {
                 if (err) {
                     reject(getErrorData(err));
                 } else {
-                    resolve(result.data)
+                    resolve(result.data);
                 }
             });
         });

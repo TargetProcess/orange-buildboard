@@ -1,0 +1,10 @@
+{
+  "preset": "yandex",
+  "esnext": true,
+  "requireSpacesInAnonymousFunctionExpression": null,
+  "requireLineFeedAtFileEnd": null,
+  "excludeFiles": [
+    ".meteor/**",
+    "packages/npm-container"
+  ]
+}

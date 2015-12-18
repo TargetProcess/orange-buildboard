@@ -1,4 +1,4 @@
-Meteor.subscribe("userData");
+Meteor.subscribe('userData');
 
 Items = new Meteor.Collection(null);
 
@@ -32,12 +32,11 @@ _.chain(collections)
 
                     if (opposites.count() == 0) {
                         Items.insert({[itemName]: item});
-                    }
-                    else {
+                    } else {
                         Items.remove({
                             [itemId]: item.id,
                             [oppositeItemName]: {$exists: false}
-                        })
+                        });
                     }
                 },
                 changed: function (item) {
@@ -49,7 +48,7 @@ _.chain(collections)
                         [oppositeItemName]: {$exists: false}
                     });
 
-                    Items.update({[itemId]: item.id}, {$unset: {[itemName]: item}}, {multi: true})
+                    Items.update({[itemId]: item.id}, {$unset: {[itemName]: item}}, {multi: true});
                 }
-            })
+            });
     });

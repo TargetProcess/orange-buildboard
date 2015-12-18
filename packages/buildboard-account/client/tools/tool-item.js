@@ -25,22 +25,21 @@ Template.toolItem.events({
         }
         var formData = {
             settings: {},
-            resources: toolData.methods.map((method)=>method.name.replace('/', '')), //TODO make ui form for it
+            resources: toolData.methods.map((method)=>method.name.replace('/', '')), // TODO make ui form for it
             tool: {}
         };
 
         formData.settings = t.findAll('.js-setting').reduce(function (values, el) {
             values[el.name] = el.value;
-            return values
+            return values;
         }, {});
         formData.tool = t.findAll('.js-tool-field').reduce(function (values, el) {
             values[el.name] = el.value;
-            return values
+            return values;
         }, {});
 
         Meteor.call('saveToolSettings', t.data.id,
-            formData
-            , (err, res)=> {
+            formData, (err)=> {
                 if (err) {
                     alert(err.reason);
                 }
@@ -56,6 +55,6 @@ Template.toolItem.helpers({
         return !this.optional;
     },
     showSave() {
-        return this.reactToolData.get().settings
+        return this.reactToolData.get().settings;
     }
 });

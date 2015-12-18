@@ -1,6 +1,6 @@
-Template.accountItem.events({
-    click() {
-        Router.go('/' + this.id);
-    }
+Template.accountItem.helpers({
+   isOwner() {
+       return this.owners.indexOf(Meteor.userId()) !== -1;
+   }
 });
 

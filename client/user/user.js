@@ -4,7 +4,6 @@ Template.user.helpers({
         if (!user)
             return '';
 
-
         if (user.profile && user.profile.name) {
             return user.profile.name;
         }

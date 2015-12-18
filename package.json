@@ -7,8 +7,8 @@
     "test": "tests"
   },
   "scripts": {
-    "jscs": "jscs ./ --fix --config=./.jscsrc --reporter=console",
-    "test": "run jscs && velocity test-package --ci"
+    "jscs": "jscs ./ --config=./.jscsrc --reporter=console",
+    "test": "npm run jscs && velocity test-package --ci"
   },
   "repository": {
     "type": "git",

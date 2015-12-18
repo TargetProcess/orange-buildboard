@@ -1,8 +1,9 @@
 Template.user.helpers({
     userName(){
         var user = Meteor.user();
-        if (!user)
+        if (!user) {
             return '';
+        }
 
         if (user.profile && user.profile.name) {
             return user.profile.name;

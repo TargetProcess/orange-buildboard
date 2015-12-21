@@ -1,5 +1,5 @@
 <template name="accountItem">
     <li class="mdl-menu__item">
-        <a href="/{{id}}">{{id}}</a> {{#if isOwner}} &nbsp; <a href="/{{id}}/edit">edit</a>{{/if}}
+        <a href="/{{id}}">{{id}}</a> {{#if isOwner}} &nbsp; <a href="{{pathFor 'editAccount' data=account}}">edit</a>{{/if}}
     </li>
 </template>

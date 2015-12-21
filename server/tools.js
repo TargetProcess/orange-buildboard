@@ -22,6 +22,7 @@ Tool = {
         var urlBase = config.url || findToolById(config.id).url;
 
         var url = `${urlBase}/${resource}?token=${config.toolToken}&take=1000`;
+        console.log(url);
 
         var result = [];
         while (url) {

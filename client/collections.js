@@ -6,7 +6,6 @@ _.chain(collections)
     .values()
     .filter(collection=>collection.opposite)
     .each(collection=> {
-
         let bind = function (actionName) {
             return function (item) {
                 _.each(collection.mappings, mapping=> {

@@ -7,21 +7,14 @@ Meteor.publish("userData", function () {
     }
 });
 
-Meteor.publish("tasks", function (account, limit, skip) {
-    var tasks = Tasks.find({account}, {skip: parseInt(skip) || 0, limit: parseInt(limit) || 10});
 
-    var branches = findBranchesForTasks(account, tasks);
+_.each(collections, collection=> {
+    Meteor.publish(collection.id, function (account, limit, skip) {
+        var items = collection.collection.find({account}, {skip: parseInt(skip) || 0, limit: parseInt(limit) || 10});
 
-    return [tasks, branches];
+        return _.map(collection.mappings, mappingConfig=> {
+            return findItems(mappingConfig, account, items);
+        });
+    })
 });
-
-Meteor.publish("branches", function (account, limit, skip) {
-    var branches = Branches.find({account}, {skip: parseInt(skip) || 0, limit: parseInt(limit) || 10});
-
-    var tasks = findTasksForBranches(account, branches);
-
-    return [branches, tasks];
-});
-
-
 

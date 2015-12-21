@@ -16,4 +16,3 @@ _.each(collections, collection=> {
         }).concat([items]);
     });
 });
-

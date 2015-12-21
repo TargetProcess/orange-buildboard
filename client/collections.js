@@ -17,8 +17,8 @@ _.chain(collections)
                         sourceItem,
                         modification
                     });
-                })
-            }
+                });
+            };
         };
 
         source.collection

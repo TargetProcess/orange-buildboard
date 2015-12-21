@@ -3,6 +3,7 @@
   "esnext": true,
   "requireSpacesInAnonymousFunctionExpression": null,
   "requireLineFeedAtFileEnd": null,
+  "requireSpaceAfterLineComment": null,
   "excludeFiles": [
     ".meteor/**",
     "packages/npm-container"

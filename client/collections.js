@@ -1,4 +1,4 @@
-Meteor.subscribe("userData");
+Meteor.subscribe('userData');
 
 Items = new Meteor.Collection(null);
 
@@ -18,5 +18,5 @@ _.chain(collections)
                 added: bind('added'),
                 changed: bind('changed'),
                 removed: bind('removed')
-            })
+            });
     });

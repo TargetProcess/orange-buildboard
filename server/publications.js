@@ -1,7 +1,7 @@
-Meteor.publish("userData", function () {
+Meteor.publish('userData', function () {
     if (this.userId) {
         return Meteor.users.find({_id: this.userId},
-            {fields: {'services': 1}});
+            {fields: {services: 1}});
     } else {
         this.ready();
     }
@@ -14,8 +14,6 @@ _.each(collections, collection=> {
         return _.map(collection.mappings, mappingConfig=> {
             return findItems(mappingConfig, account, items);
         });
-    })
+    });
 });
-
-
 

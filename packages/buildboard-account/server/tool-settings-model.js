@@ -8,7 +8,6 @@ function getDefaultSettings(toolId) {
     return (tool && tool.defaults) || {};
 }
 
-
 Meteor.methods({
     getToolSettings(tool) {
         check(this.userId, String);
@@ -23,12 +22,12 @@ Meteor.methods({
         return Promise.all([Tool.getMetaSettings(tool), currentSettings]).then(([metaSettings, currentSettings])=> {
             return {
                 settings: _.map(metaSettings.settings, (setting, key)=> {
-                    return _.extend({name: key, currentValue: currentSettings.config[key]}, setting)
+                    return _.extend({name: key, currentValue: currentSettings.config[key]}, setting);
                 }),
                 methods: _.map(metaSettings.methods, extendName)
             };
         }).catch((e)=> {
-            throw new Meteor.Error("getToolSetting", e.join('\n'));
+            throw new Meteor.Error('getToolSetting', e.join('\n'));
         });
     },
     saveToolSettings(accountId, formData) {
@@ -54,14 +53,14 @@ Meteor.methods({
                 resources: formData.resources
             };
             if (index !== -1) {
-                tools[index] = tool
+                tools[index] = tool;
             } else {
-                tools.push(tool)
+                tools.push(tool);
             }
             BuildBoardAccounts.update({_id: account._id}, {$set: {tools: tools}});
             return true;
         }).catch((e)=> {
-            throw new Meteor.Error("saveAccount", e.join('\n'));
+            throw new Meteor.Error('saveAccount', e.join('\n'));
         });
     }
 });

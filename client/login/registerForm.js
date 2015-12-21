@@ -6,9 +6,9 @@ Template.registerForm.events({
         var password = t.find('#login-password').value;
         Accounts.createUser({email: email, password: password}, function (err) {
             if (err) {
-                alert(JSON.stringify(err))
+                alert(JSON.stringify(err));
             } else {
-                Router.go('/')
+                Router.go('/');
             }
 
         });

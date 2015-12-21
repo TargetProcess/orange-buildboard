@@ -3,7 +3,7 @@ Template.layout.helpers({
         return false;// Router.current().route.getName()
     },
     isLogged() {
-      return Meteor.userId();
+        return Meteor.userId();
     }
 });
 

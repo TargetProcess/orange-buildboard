@@ -7,7 +7,8 @@
     "test": "tests"
   },
   "scripts": {
-    "test": "velocity test-package --ci"
+    "jscs": "jscs ./ --config=./.jscsrc --reporter=console",
+    "test": "npm run jscs && velocity test-package --ci"
   },
   "repository": {
     "type": "git",
@@ -23,6 +24,7 @@
   },
   "homepage": "https://github.com/buildboard/buildboard#readme",
   "devDependencies": {
+    "jscs": "^2.7.0",
     "velocity-cli": "^0.4.3"
   },
   "dependencies": {

@@ -7,7 +7,6 @@ Meteor.publish("userData", function () {
     }
 });
 
-
 _.each(collections, collection=> {
     Meteor.publish(collection.id, function (account, limit, skip) {
         var items = collection.collection.find({account}, {skip: parseInt(skip) || 0, limit: parseInt(limit) || 10});
@@ -17,4 +16,6 @@ _.each(collections, collection=> {
         });
     })
 });
+
+
 

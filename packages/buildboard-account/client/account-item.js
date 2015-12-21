@@ -1,5 +1,5 @@
 Template.accountItem.helpers({
-   isOwner() {
+    isOwner() {
        return this.owners.indexOf(Meteor.userId()) !== -1;
    }
 });

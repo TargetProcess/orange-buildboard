@@ -5,15 +5,14 @@ Items = new Meteor.Collection(null);
 _.chain(collections)
     .values()
     .filter(collection=>collection.opposite)
-    .each(collection=> {
-        let bind = function (actionName) {
-            return function (item) {
-                _.each(collection.mappings, mapping=> {
-                    mapping.bind(mapping, collection, item, actionName, item.account);
-                })
-            }
-        };
-        collection.collection
+    .each(collecion=> {
+        var oppositeCollection = collections[collecion.opposite];
+        var itemName = collecion.item;
+        var oppositeItemName = oppositeCollection.item;
+        let itemId = itemName + '.id';
+        let oppositeId = oppositeItemName + '.id';
+
+        collecion.collection
             .find({})
             .observe({
                 added: bind('added'),

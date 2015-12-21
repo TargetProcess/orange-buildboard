@@ -6,6 +6,6 @@ Template.accountList.helpers({
 
 Template.accountList.events({
     'click .js-create-account'() {
-       Router.go('/createAccount');
+        Router.go('/createAccount');
     }
 });

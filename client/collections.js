@@ -4,15 +4,24 @@ Items = new Meteor.Collection(null);
 
 _.chain(collections)
     .values()
-    .filter(collection=>collection.opposite)
-    .each(collecion=> {
-        var oppositeCollection = collections[collecion.opposite];
-        var itemName = collecion.item;
-        var oppositeItemName = oppositeCollection.item;
-        let itemId = itemName + '.id';
-        let oppositeId = oppositeItemName + '.id';
+    .each(source=> {
+        let bind = function (modification) {
+            return function (sourceItem) {
+                _.each(source.mappings, mappingConfig=> {
 
-        collecion.collection
+                    var mapping = mappings[mappingConfig.id];
+                    mapping.bind({
+                        account: sourceItem.account,
+                        mappingConfig,
+                        source: source,
+                        sourceItem,
+                        modification
+                    });
+                })
+            }
+        };
+
+        source.collection
             .find({})
             .observe({
                 added: bind('added'),

@@ -10,12 +10,9 @@ Meteor.publish('userData', function () {
 _.each(collections, collection=> {
     Meteor.publish(collection.id, function (account, limit, skip) {
         var items = collection.collection.find({account}, {skip: parseInt(skip) || 0, limit: parseInt(limit) || 10});
-        console.log(collection.id);
-
-        console.log(items.fetch());
 
         return _.map(collection.mappings, mappingConfig=> {
-            return findItems(mappingConfig, account, items);
+            return findItems({mappingConfig, account, items});
         }).concat([items]);
     });
 });

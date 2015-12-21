@@ -11,7 +11,7 @@ Meteor.methods({
         }
     },
     initTools() {
-        check(this.userId, String);
+        // check(this.userId, String);
         return Meteor.settings.tools;
     }
 });

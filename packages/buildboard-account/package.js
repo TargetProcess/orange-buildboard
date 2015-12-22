@@ -11,12 +11,12 @@ Package.describe({
 });
 
 Package.onUse(function (api) {
-    api.use(['templating', 'reactive-var', 'iron:router'], 'client');
-    api.use(['ecmascript', 'underscore', 'session', 'mongo', 'check']);
+    api.use(['templating', 'reactive-var'], 'client');
+    api.use(['ecmascript', 'underscore', 'session', 'mongo', 'check', 'iron:router']);
 
     api.versionsFrom('1.2.1');
 
-    api.addFiles('lib/collections.js', ['client', 'server']);
+    api.addFiles(['lib/collections.js', 'lib/router.js'], ['client', 'server']);
 
     api.addFiles([
         'client/create-account.html',

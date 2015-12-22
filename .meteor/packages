@@ -32,7 +32,6 @@ jparker:gravatar
 tinytest
 reactive-var
 buildboard-account
-meteorhacks:npm
 cosmos:browserify
 check
 jparker:crypto-core
@@ -43,4 +42,3 @@ jparker:crypto-core
 
 
 
-npm-container

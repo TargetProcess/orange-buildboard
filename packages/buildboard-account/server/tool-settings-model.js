@@ -12,11 +12,15 @@ Meteor.methods({
     getToolSettings(tool) {
         check(this.userId, String);
         var currentSettings = {
-            config: getDefaultSettings(tool.id)
+            config: getDefaultSettings(tool.id),
+            resources: []
         };
 
         if (tool.toolToken) {
-            currentSettings = Tool.getToolSettings(tool);
+            currentSettings = Tool.getToolSettings(tool).then((settings)=>{
+                settings.resources = tool.resources || [];
+                return settings;
+            });
         }
 
         return Promise.all([Tool.getMetaSettings(tool), currentSettings]).then(([metaSettings, currentSettings])=> {
@@ -24,7 +28,9 @@ Meteor.methods({
                 settings: _.map(metaSettings.settings, (setting, key)=> {
                     return _.extend({name: key, currentValue: currentSettings.config[key]}, setting);
                 }),
-                methods: _.map(metaSettings.methods, extendName)
+                methods: _.map(metaSettings.methods, (method, key)=> {
+                    return _.extend({name: key, currentValue: currentSettings.resources.indexOf(key) !== -1}, method);
+                })
             };
         }).catch((e)=> {
             throw new Meteor.Error('getToolSetting', e.join('\n'));

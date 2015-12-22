@@ -38,6 +38,17 @@
                     </div>
                 </div>
             {{/each}}
+            {{#if methods}}
+                <div>Methods</div>
+            {{/if}}
+            {{#each methods}}
+                <div>
+                    <label class="mdl-checkbox mdl-js-checkbox mdl-js-ripple-effect">
+                        <input type="checkbox" value="{{name}}" checked="{{#if currentValue}}checked{{/if}}" class="mdl-checkbox__input js-method">
+                        <span class="mdl-checkbox__label">{{name}}</span>
+                    </label>
+                </div>
+            {{/each}}
             {{#if showSave}}
                 <div class="tool-add">
                     <button class="mdl-button js-save mdl-button--colored mdl-js-button mdl-js-ripple-effect">Save tool

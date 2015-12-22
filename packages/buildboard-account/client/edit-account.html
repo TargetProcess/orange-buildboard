@@ -1,7 +1,7 @@
 <template name="editAccount">
     <div class="demo-card-wide mdl-shadow--2dp mdl-card">
         <div class="mdl-card__title">
-            <h2 class="mdl-card__title-text">{{id}}</h2>
+            <h2 class="mdl-card__title-text">{{id}}</h2> <a href="{{pathFor 'accountGetAll'}}"> refresh</a>
         </div>
         {{#each tools}}
             {{>toolItem}}

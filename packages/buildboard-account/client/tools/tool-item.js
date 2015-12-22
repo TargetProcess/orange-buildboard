@@ -25,7 +25,7 @@ Template.toolItem.events({
         }
         var formData = {
             settings: {},
-            resources: toolData.methods.map((method)=>method.name.replace('/', '')), // TODO make ui form for it
+            resources: [],
             tool: {}
         };
 
@@ -33,6 +33,7 @@ Template.toolItem.events({
             values[el.name] = el.value;
             return values;
         }, {});
+        formData.resources = t.findAll('.js-method').filter(el=>el.checked).map(el => el.value);
         formData.tool = t.findAll('.js-tool-field').reduce(function (values, el) {
             values[el.name] = el.value;
             return values;
@@ -50,6 +51,9 @@ Template.toolItem.events({
 Template.toolItem.helpers({
     settings() {
         return this.reactToolData.get().settings;
+    },
+    methods() {
+        return this.reactToolData.get().methods;
     },
     isRequire() {
         return !this.optional;

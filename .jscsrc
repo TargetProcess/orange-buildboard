@@ -6,6 +6,6 @@
   "requireSpaceAfterLineComment": null,
   "excludeFiles": [
     ".meteor/**",
-    "packages/npm-container"
+    "node_modules/**"
   ]
 }

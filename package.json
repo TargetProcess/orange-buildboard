@@ -8,6 +8,7 @@
   },
   "scripts": {
     "jscs": "jscs ./ --config=./.jscsrc --reporter=console",
+    "jscsfix": "jscs ./ --config=./.jscsrc --reporter=console --fix",
     "test": "npm run jscs && velocity test-package --ci"
   },
   "repository": {

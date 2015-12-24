@@ -32,6 +32,7 @@ Meteor.methods({
                     }
                 });
             });
+            applyMappings({account: accountId, collections});
         }
     }
 });

@@ -36,11 +36,22 @@ mappings = _.indexBy([
     {
         id: 'regex_attach',
         bind({account, mappingConfig, source, sourceItem, modification}){
-            console.log({account, mappingConfig, source, sourceItem, modification});
+            // console.log({account, mappingConfig, source, sourceItem, modification});
         },
         map: regexPlaceholderMap
     }
 ], 'id');
+
+applyMappings = function ({account, collections}) {
+    _.each(collections, collection=> {
+        collection.collection.find({account}).forEach(item=> {
+            _.each(collection.mappings, mappingConfig=> {
+                var mapping = mappings[mappingConfig.id];
+                mapping.bind({account, mappingConfig, source: collection, sourceItem: item, modification: 'added'});
+            })
+        });
+    });
+};
 
 findItems = function ({mappingConfig, account, items}) {
     let mapping = mappings[mappingConfig.id];

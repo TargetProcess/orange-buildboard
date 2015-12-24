@@ -14,8 +14,8 @@ Package.onUse(function (api) {
     api.versionsFrom('1.2.1');
     api.use('ecmascript');
     api.use(['underscore']);
-    api.addFiles(['lib/buildboard-mappings.js', 'lib/directBindings.js', 'lib/utils.js']);
-    api.export(['mappings', 'findItems']);
+    api.addFiles(['lib/buildboard-mappings.js', 'lib/directBindings.js', 'lib/utils.js'], 'server');
+    api.export(['mappings', 'applyMappings']);
 });
 
 Package.onTest(function (api) {

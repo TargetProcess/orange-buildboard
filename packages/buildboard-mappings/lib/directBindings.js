@@ -1,15 +1,12 @@
 directBindings = {
     added({mappingConfig, source, sourceItem, account}) {
-
-        let config2 = config({mappingConfig, source, sourceItem});
-        //console.log(config2);
         var {
             sourceField,
             sourceFieldValue,
             destination,
             destinationField,
             destinationFieldValueGetter
-            } = config2;
+            } = config({mappingConfig, source, sourceItem});
 
         var destinationItems = findItems({mappingConfig, account, items: [sourceItem]});
 

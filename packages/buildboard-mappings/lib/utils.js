@@ -6,4 +6,4 @@ config = function ({mappingConfig, source, sourceItem}) {
         destinationField: collections[mappingConfig.destination].item + '.' + mappingConfig.config.destField,
         destinationFieldValueGetter: (destinationItem)=>_.get(destinationItem, mappingConfig.config.destField)
     };
-}
+};

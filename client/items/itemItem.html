@@ -1,7 +1,20 @@
 <template name="itemItem">
     <tr>
-        <td class="mdl-data-table__cell--non-numeric">{{getProperty item.branch 'name'}}</td>
-        <td class="mdl-data-table__cell--non-numeric">{{getProperty item.task 'id'}}</td>
-        <td class="mdl-data-table__cell--non-numeric">{{getProperty item.task 'name'}}</td>
+        <td class="mdl-data-table__cell--non-numeric">
+            <a href="{{getProperty item.task 'url'}}">{{getProperty item.task 'id'}}</a>
+            {{getProperty item.task 'name'}}
+        </td>
+
+        <td class="mdl-data-table__cell--non-numeric">
+            <a href="{{getProperty item.branch 'url'}}">
+                {{getProperty item.branch 'id'}}
+            </a>
+        </td>
+
+        <td class="mdl-data-table__cell--non-numeric">
+            <a href="{{getProperty item.pullRequest 'url'}}">
+                {{getProperty item.pullRequest 'id'}}
+            </a>
+        </td>
     </tr>
 </template>

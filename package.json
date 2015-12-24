@@ -29,7 +29,9 @@
     "velocity-cli": "^0.4.3"
   },
   "dependencies": {
+    "escape-string-regexp": "^1.0.4",
     "lodash.get": "^3.7.0",
-    "lodash.mapvalues": "^3.0.1"
+    "lodash.mapvalues": "^3.0.1",
+    "string-humanize": "^1.0.0"
   }
 }

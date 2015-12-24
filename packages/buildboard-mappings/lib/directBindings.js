@@ -16,6 +16,7 @@ directBindings = {
         destinationItems.forEach(destinationItem=> {
             let destinationFieldValue = destinationFieldValueGetter(destinationItem);
             let result = Items.upsert({
+                    account,
                     [destination.item + '.tool']: destinationItem.tool,
                     [destinationField]: destinationFieldValue
                 },
@@ -26,18 +27,18 @@ directBindings = {
                     }
                 }, {multi: true});
 
-            console.log(result);
-
             Items.remove({
+                account,
                 [destinationField]: destinationFieldValue,
                 [sourceField]: {$exists: false}
             });
         });
 
         if (destinationItems.count() == 0) {
-            Items.insert({[source.item]: sourceItem});
+            Items.insert({account, [source.item]: sourceItem});
         } else {
             Items.remove({
+                account,
                 [sourceField]: sourceFieldValue,
                 [source.item + '.tool']: sourceItem.tool,
                 [destination.item]: {$exists: false}
@@ -45,7 +46,7 @@ directBindings = {
         }
 
     },
-    changed({mappingConfig, source, sourceItem}){
+    changed({mappingConfig, source, sourceItem, account}){
         var {
             sourceField,
             sourceFieldValue,
@@ -53,6 +54,7 @@ directBindings = {
 
         Items.update(
             {
+                account,
                 [source.item + '.tool']: sourceItem.tool,
                 [sourceField]: sourceFieldValue
             },
@@ -63,7 +65,7 @@ directBindings = {
             },
             {multi: true});
     },
-    removed({mappingConfig, source, sourceItem}){
+    removed({mappingConfig, source, sourceItem, account}){
         var {
             sourceField,
             sourceFieldValue,
@@ -71,6 +73,7 @@ directBindings = {
             } = config({mappingConfig, source, sourceItem});
 
         Items.remove({
+            account,
             [sourceField]: sourceFieldValue,
             [source.item + '.tool']: sourceItem.tool,
             [destination.item]: {$exists: false}
@@ -78,6 +81,7 @@ directBindings = {
 
         Items.update(
             {
+                account,
                 [sourceField]: sourceFieldValue,
                 [source.item + '.tool']: sourceItem.tool
             }, {$unset: {[source.item]: sourceItem}}, {multi: true});

@@ -3,7 +3,7 @@ Meteor.methods({
         var account = BuildBoardAccounts.findOne({id: accountId});
         if (account) {
             var tools = account.tools;
-
+            Items.remove({account: accountId});
             _.each(tools, tool=> {
                 _.each(tool.resources, resource=> {
                     var collection = collections[resource];

@@ -22,5 +22,5 @@ Package.onTest(function (api) {
     api.use('ecmascript');
     api.use('buildboard-account');
     api.use('sanjo:jasmine@0.20.3');
-    api.addFiles('tests/buildboard-account.js');
+    api.addFiles('tests/buildboard-mappings.js');
 });

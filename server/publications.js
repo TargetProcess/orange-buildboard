@@ -7,12 +7,11 @@ Meteor.publish('userData', function () {
     }
 });
 
-_.each(collections, collection=> {
-    Meteor.publish(collection.id, function (account, limit, skip) {
-        var items = collection.collection.find({account}, {skip: parseInt(skip) || 0, limit: parseInt(limit) || 10});
+Meteor.publish('items', function (account, limit, skip) {
+    return Items.find({account}, {skip: parseInt(skip) || 0, limit: parseInt(limit) || 10});
+});
 
-        return _.map(collection.mappings, mappingConfig=> {
-            return findItems({mappingConfig, account, items});
-        }).concat([items]);
-    });
+
+Meteor.publish('item', function (id) {
+    return Items.find(id);
 });

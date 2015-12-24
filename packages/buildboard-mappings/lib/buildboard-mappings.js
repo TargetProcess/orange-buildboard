@@ -48,7 +48,7 @@ applyMappings = function ({account, collections}) {
             _.each(collection.mappings, mappingConfig=> {
                 var mapping = mappings[mappingConfig.id];
                 mapping.bind({account, mappingConfig, source: collection, sourceItem: item, modification: 'added'});
-            })
+            });
         });
     });
 };

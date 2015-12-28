@@ -17,20 +17,35 @@ Meteor.methods({
         };
 
         if (tool.toolToken) {
-            currentSettings = Tool.getToolSettings(tool).then((settings)=>{
+            currentSettings = Tool.getToolSettings(tool).then((settings)=> {
                 settings.resources = tool.resources || [];
                 return settings;
             });
         }
 
         return Promise.all([Tool.getMetaSettings(tool), currentSettings]).then(([metaSettings, currentSettings])=> {
+            var parameterlessMethods = _.chain(metaSettings.methods)
+                //only allow parameterless methods
+                .map((resource, key)=> {
+                    let keysValues = _.pairs(resource);
+                    let parameterlessMethods = keysValues.filter(([method, action]) => {
+                        return !action.params || !_.some(action.params, p => p.required)
+                    });
+                    let actualResource = _.object(parameterlessMethods);
+
+                    return _.extend({
+                        name: key,
+                        currentValue: currentSettings.resources.indexOf(key) !== -1
+                    }, actualResource)
+                })
+                .filter(resource => _.keys(resource).length > 1)
+                .value();
+
             return {
                 settings: _.map(metaSettings.settings, (setting, key)=> {
                     return _.extend({name: key, currentValue: currentSettings.config[key]}, setting);
                 }),
-                methods: _.map(metaSettings.methods, (method, key)=> {
-                    return _.extend({name: key, currentValue: currentSettings.resources.indexOf(key) !== -1}, method);
-                })
+                methods: parameterlessMethods
             };
         }).catch((e)=> {
             throw new Meteor.Error('getToolSetting', e.join('\n'));

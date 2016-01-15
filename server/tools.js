@@ -57,12 +57,12 @@ Tool = {
             });
         });
     },
-    saveToolSettings({toolToken, settings, toolId, url}) {
+    saveToolSettings({toolToken, settings, toolId, url, resources}) {
         toolToken = toolToken || generateToken();
         var urlBase = url || findToolById(toolId).url;
         var apiUrl = `${urlBase}/account/${toolToken}?token=${Meteor.settings.secret}`;
         return new Promise(function (resolve, reject) {
-            HTTP.post(apiUrl, {data: {toolToken, config: settings}}, (err, result)=> {
+            HTTP.post(apiUrl, {data: {toolToken, config: settings, resources: resources}}, (err, result)=> {
                 if (err) {
                     reject(getErrorData(err));
                 } else {

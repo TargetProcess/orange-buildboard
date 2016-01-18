@@ -62,8 +62,9 @@ Meteor.methods({
         return Tool.saveToolSettings({
             toolToken: formData.tool.toolToken,
             settings: formData.settings,
+            toolId: formData.tool.id,
             url: formData.tool.url,
-            toolId: formData.tool.id
+            resources: formData.resources
         }).then(function ({toolToken}) {
             var tools = account.tools || [];
             var index = tools.findIndex(tool=>tool.toolToken === toolToken);

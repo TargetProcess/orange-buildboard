@@ -32,7 +32,7 @@ Meteor.methods({
                     }
                 });
             });
-            applyMappings({account: accountId, collections});
+            processAdd({account: accountId, collections});
         }
     }
 });

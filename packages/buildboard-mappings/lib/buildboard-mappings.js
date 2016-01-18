@@ -42,7 +42,7 @@ mappings = _.indexBy([
     }
 ], 'id');
 
-applyMappings = function ({account, collections}) {
+processAdd = function ({account, collections}) {
     _.each(collections, collection=> {
         collection.collection.find({account}).forEach(item=> {
             applyMapping({account, collection, item, modification: 'added'});
@@ -51,7 +51,6 @@ applyMappings = function ({account, collections}) {
 };
 
 applyMapping = function ({account, collection, item, modification}) {
-
     _.each(collection.mappings, mappingConfig=> {
         var mapping = mappings[mappingConfig.id];
         mapping.bind({account, mappingConfig, source: collection, sourceItem: item, modification});

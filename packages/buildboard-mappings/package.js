@@ -15,7 +15,7 @@ Package.onUse(function (api) {
     api.use('ecmascript');
     api.use(['underscore']);
     api.addFiles(['lib/buildboard-mappings.js', 'lib/directBindings.js', 'lib/utils.js'], 'server');
-    api.export(['mappings', 'applyMappings', 'applyMapping']);
+    api.export(['mappings', 'processAdd', 'applyMapping']);
 });
 
 Package.onTest(function (api) {

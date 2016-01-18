@@ -43,7 +43,11 @@ Meteor.methods({
 
             return {
                 settings: _.map(metaSettings.settings, (setting, key)=> {
-                    return _.extend({name: key, currentValue: currentSettings.config[key]}, setting);
+                    var currentValue = currentSettings.config[key];
+                    if (_.isUndefined(currentValue)){
+                        currentValue = setting.defaultValue;
+                    }
+                    return _.extend({name: key, currentValue}, setting);
                 }),
                 methods: parameterlessMethods
             };

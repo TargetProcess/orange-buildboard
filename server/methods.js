@@ -4,7 +4,7 @@ Meteor.methods({
         if (account) {
             var tools = account.tools;
             Items.remove({account: accountId});
-            _.each(tools, tool=> {
+            _.each(tools, tool => {
                 _.each(tool.resources, resource=> {
                     var collection = collections[resource];
                     if (collection) {
@@ -27,12 +27,18 @@ Meteor.methods({
                                 },
                                 {$set: item}
                             );
-
                         });
                     }
                 });
             });
-            processAdd({account: accountId, collections});
+            _.each(collections, collection=> {
+                collection.collection
+                    .find({account: accountId})
+                    .forEach(item => {
+                        item.tpe = collection.item;
+                        notify({item, modification: 'added'});
+                    });
+            });
         }
     }
 });

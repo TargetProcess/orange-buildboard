@@ -6,14 +6,24 @@
         </td>
 
         <td class="mdl-data-table__cell--non-numeric">
+            {{state item 'name'}}
+        </td>
+
+        <td class="mdl-data-table__cell--non-numeric">
             <a href="{{first item.branches 'url'}}">
                 {{first item.branches 'id'}}
             </a>
         </td>
 
         <td class="mdl-data-table__cell--non-numeric">
-            <a href="{{getProperty item.pullRequest 'url'}}">
-                {{getProperty item.pullRequest 'id'}}
+            <a href="{{pullRequest item 'url'}}">
+                {{pullRequest item 'id'}}
+            </a>
+        </td>
+
+        <td class="mdl-data-table__cell--non-numeric">
+            <a href="{{lastBuild item 'url'}}">
+                {{lastBuild item 'status'}}
             </a>
         </td>
     </tr>

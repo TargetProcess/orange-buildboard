@@ -1,13 +1,13 @@
 <template name="itemItem">
     <tr>
         <td class="mdl-data-table__cell--non-numeric">
-            <a href="{{getProperty item.task 'url'}}">{{getProperty item.task 'id'}}</a>
-            {{getProperty item.task 'name'}}
+            <a href="{{first item.tasks 'url'}}">{{first item.tasks 'id'}}</a>
+            {{first item.tasks 'name'}}
         </td>
 
         <td class="mdl-data-table__cell--non-numeric">
-            <a href="{{getProperty item.branch 'url'}}">
-                {{getProperty item.branch 'id'}}
+            <a href="{{first item.branches 'url'}}">
+                {{first item.branches 'id'}}
             </a>
         </td>
 

@@ -1,11 +1,30 @@
-Events.subscribe(({item, modification}) => {
-    console.log(item, modification);
+let Rx = Npm.require('rx');
+
+_.values(collections).forEach(collection => {
+    let events = {
+        added: new Rx.Subject(),
+        updated: new Rx.Subject(),
+        removed: new Rx.Subject()
+    };
+    collection.collection.find().observe({
+        added: function (item) {
+            events.added.onNext(item);
+        },
+        updated: function (item) {
+            events.updated.onNext(item);
+        },
+        removed: function (item) {
+            events.removed.onNext(item);
+        }
+    });
+
+    collection.events = events;
 });
 
+
 //tasks
-Events
-    .filter(({item, modification}) => item.tpe == 'task' && modification == 'added')
-    .subscribe(({item}) => {
+collections.tasks.events.added
+    .subscribe(item => {
         Items.upsert(
             {
                 account: item.account,
@@ -16,9 +35,8 @@ Events
             }
         );
     });
-Events
-    .filter(({item, modification}) => item.tpe == 'task' && modification == 'updated')
-    .subscribe(({item}) => {
+collections.tasks.events.updated
+    .subscribe(item => {
         Items.update(
             {
                 account: item.account,
@@ -28,9 +46,8 @@ Events
             {$set: {'tasks.$': item}}
         );
     });
-Events
-    .filter(({item, modification}) => item.tpe == 'task' && modification == 'removed')
-    .subscribe(({item}) => {
+collections.tasks.events.removed
+    .subscribe(item => {
         Items.update(
             {
                 account: item.account,
@@ -51,9 +68,8 @@ Events
     });
 
 //branches
-Events
-    .filter(({item, modification}) => item.tpe == 'branch' && modification == 'added')
-    .subscribe(({item}) => {
+collections.branches.events.added
+    .subscribe(item => {
         Items.upsert(
             {
                 account: item.account,
@@ -64,9 +80,8 @@ Events
             }
         );
     });
-Events
-    .filter(({item, modification}) => item.tpe == 'branch' && modification == 'updated')
-    .subscribe(({item}) => {
+collections.branches.events.updated
+    .subscribe(item => {
         Items.update(
             {
                 account: item.account,
@@ -76,9 +91,8 @@ Events
             {$set: {'branches.$': item}}
         );
     });
-Events
-    .filter(({item, modification}) => item.tpe == 'branch' && modification == 'removed')
-    .subscribe(({item}) => {
+collections.branches.events.removed
+    .subscribe(item => {
         Items.update(
             {
                 account: item.account,
@@ -109,9 +123,8 @@ Events
     });
 
 //pull requests
-Events
-    .filter(({item, modification}) => item.tpe == 'pullRequest' && modification == 'added')
-    .subscribe(({item}) => {
+collections.pullRequests.events.added
+    .subscribe(item => {
         Items.update(
             {
                 account: item.account,
@@ -124,9 +137,8 @@ Events
             }
         );
     });
-Events
-    .filter(({item, modification}) => item.tpe == 'pullRequest' && modification == 'updated')
-    .subscribe(({item}) => {
+collections.pullRequests.events.updated
+    .subscribe(item => {
         Items.update(
             {
                 account: item.account,
@@ -140,9 +152,8 @@ Events
             }
         );
     });
-Events
-    .filter(({item, modification}) => item.tpe == 'pullRequest' && modification == 'removed')
-    .subscribe(({item}) => {
+collections.pullRequests.events.removed
+    .subscribe(item => {
         Items.update(
             {
                 account: item.account,
@@ -158,9 +169,8 @@ Events
     });
 
 //builds
-Events
-    .filter(({item, modification}) => item.tpe == 'build' && modification == 'added')
-    .subscribe(({item}) => {
+collections.builds.events.added
+    .subscribe(item => {
         let query = {
             account: item.account,
             $or: [
@@ -171,7 +181,7 @@ Events
         if (item.pullRequest) {
             query['branches.pullRequest.id'] = item.pullRequest;
         }
-        else{
+        else {
             query['branches.id'] = item.branch;
         }
         Items.update(query,
@@ -182,9 +192,8 @@ Events
             }
         )
     });
-Events
-    .filter(({item, modification}) => item.tpe == 'build' && modification == 'updated')
-    .subscribe(({item}) => {
+collections.builds.events.updated
+    .subscribe(item => {
         Items.update(
             {
                 account: item.account,
@@ -197,9 +206,8 @@ Events
             }
         )
     });
-Events
-    .filter(({item, modification}) => item.tpe == 'build' && modification == 'removed')
-    .subscribe(({item}) => {
+collections.builds.events.removed
+    .subscribe(item => {
         Items.update(
             {
                 account: item.account,

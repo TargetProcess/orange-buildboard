@@ -2,9 +2,7 @@ Meteor.methods({
     getAll(accountId) {
         var account = BuildBoardAccounts.findOne({id: accountId});
         if (account) {
-            var tools = account.tools;
-            Items.remove({account: accountId});
-            _.each(tools, tool => {
+            _.each(account.tools, tool => {
                 _.each(tool.resources, resource=> {
                     var collection = collections[resource];
                     if (collection) {
@@ -30,14 +28,6 @@ Meteor.methods({
                         });
                     }
                 });
-            });
-            _.each(collections, collection=> {
-                collection.collection
-                    .find({account: accountId})
-                    .forEach(item => {
-                        item.tpe = collection.item;
-                        notify({item, modification: 'added'});
-                    });
             });
         }
     }

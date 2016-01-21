@@ -93,16 +93,16 @@ Events
             {
                 id: item.wid,
                 tasks: {
-                    $or: {
-                        $exists: false,
-                        $eq: []
-                    }
+                    $or: [
+                        {$exists: false},
+                        {$eq: []}
+                    ]
                 },
                 branches: {
-                    $or: {
-                        $exists: false,
-                        $eq: []
-                    }
+                    $or: [
+                        {$exists: false},
+                        {$eq: []}
+                    ]
                 }
             }
         );
@@ -158,21 +158,57 @@ Events
     });
 
 //builds
-//Events
-//    .filter(({item, modification}) => item.tpe == 'build' && modification == 'added')
-//    .subscribe(({item}) => {
-//        Items.update(
-//            {
-//                account: item.account,
-//                $or: {
-//                    'branches.id': item.branch,
-//                    'branches.pullRequest.id': item.pullRequest
-//                }
-//            },
-//            {
-//                $set: {
-//                    'branches.$.lastBuild': item
-//                }
-//            }
-//        )
-//    });
+Events
+    .filter(({item, modification}) => item.tpe == 'build' && modification == 'added')
+    .subscribe(({item}) => {
+        let query = {
+            account: item.account,
+            $or: [
+                {'branches.lastBuild': {$exists: false}},
+                {'branches.lastBuild.timestamp': {$lt: item.timestamp}}
+            ]
+        };
+        if (item.pullRequest) {
+            query['branches.pullRequest.id'] = item.pullRequest;
+        }
+        else{
+            query['branches.id'] = item.branch;
+        }
+        Items.update(query,
+            {
+                $set: {
+                    'branches.$.lastBuild': item
+                }
+            }
+        )
+    });
+Events
+    .filter(({item, modification}) => item.tpe == 'build' && modification == 'updated')
+    .subscribe(({item}) => {
+        Items.update(
+            {
+                account: item.account,
+                'branches.lastBuild.id': item.id
+            },
+            {
+                $set: {
+                    'branches.$.lastBuild': item
+                }
+            }
+        )
+    });
+Events
+    .filter(({item, modification}) => item.tpe == 'build' && modification == 'removed')
+    .subscribe(({item}) => {
+        Items.update(
+            {
+                account: item.account,
+                'branches.lastBuild.id': item.id
+            },
+            {
+                $unset: {
+                    'branches.$.lastBuild': ''
+                }
+            }
+        )
+    });

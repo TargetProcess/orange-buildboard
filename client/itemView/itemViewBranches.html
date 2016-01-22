@@ -1,0 +1,20 @@
+<template name="itemViewBranches">
+    <div class="mdl-card mdl-cell mdl-cell--6-col">
+        <table class="mdl-data-table mdl-js-data-table">
+            <thead>
+            <tr>
+                <th class="mdl-data-table__cell--non-numeric">Branch</th>
+                <th class="mdl-data-table__cell--non-numeric">Pull request</th>
+            </tr>
+            </thead>
+            <tbody>
+            {{#each branches}}
+                <tr>
+                    <td class="mdl-data-table__cell--non-numeric"><a href="{{url}}">{{id}}</a></td>
+                    <td class="mdl-data-table__cell--non-numeric">{{> itemViewPullRequest pullRequest=pullRequest}}</td>
+                </tr>
+            {{/each}}
+            </tbody>
+        </table>
+    </div>
+</template>

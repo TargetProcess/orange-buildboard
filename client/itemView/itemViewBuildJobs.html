@@ -1,0 +1,10 @@
+<template name="itemViewBuildJobs">
+    <ul>
+        {{#each this}}
+            <li>
+                <a href="{{url}}">{{name}}</a>
+                {{> itemViewBuildJobs children}}
+            </li>
+        {{/each}}
+    </ul>
+</template>

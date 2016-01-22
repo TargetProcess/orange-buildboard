@@ -131,8 +131,8 @@ collections.pullRequests.events.added
                 'branches.id': item.branch
             },
             {
-                $push: {
-                    'pullRequests': item
+                $set: {
+                    'branches.$.pullRequest': item
                 }
             }
         );
@@ -143,11 +143,11 @@ collections.pullRequests.events.updated
             {
                 account: item.account,
                 'branches.id': item.branch,
-                'pullRequests.id': item.id
+                'branches.pullRequest.id': item.id
             },
             {
                 $set: {
-                    'pullRequests.$': item
+                    'branches.$.pullRequest': item
                 }
             }
         );
@@ -158,11 +158,11 @@ collections.pullRequests.events.removed
             {
                 account: item.account,
                 'branches.id': item.branch,
-                'pullRequests.id': item.id
+                'branches.pullRequest.id': item.id
             },
             {
-                $pull: {
-                    pullRequests: {id: 'item.id'}
+                $unset: {
+                    'branches.$.pullRequest': ''
                 }
             }
         );
@@ -228,8 +228,55 @@ collections.builds.events.removed
             },
             {
                 $pull: {
-                    'builds.$': {id: 'item.id'}
+                    'builds': {id: 'item.id'}
                 }
             }
         )
+    });
+
+//jobs
+collections.jobs.events.added
+    .subscribe(item => {
+        Items.update(
+            {
+                account: item.account,
+                'builds.id': item.build
+            },
+            {
+                '$push': {
+                    'builds.$.jobs': item
+                }
+            }
+        );
+    });
+//won't work
+//collections.jobs.events.updated
+//    .subscribe(item => {
+//        Items.update(
+//            {
+//                account: item.account,
+//                'builds.id': item.build,
+//                'builds.jobs.id': item.id
+//            },
+//            {
+//                '$set': {
+//                    'builds.$.jobs.$': item
+//                }
+//            }
+//        );
+//    });
+collections.jobs.events.removed
+    .subscribe(item => {
+        Items.update(
+            {
+                account: item.account,
+                'builds.id': item.build,
+                'builds.jobs.id': item.id
+            },
+            {
+                $pull: {
+                    'builds.$.jobs': {id: item.id}
+                }
+            }
+        );
     });

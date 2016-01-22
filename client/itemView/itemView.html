@@ -1,5 +1,23 @@
 <template name="itemView">
-    <pre>
-        <code>{{print this}}</code>
-    </pre>
+    <div>
+        {{#each tasks}}
+            {{> itemViewTask task=this}}
+        {{/each}}
+        {{#each branches}}
+            {{> itemViewBranch branch=this}}
+        {{/each}}
+    </div>
+    <div>
+        {{#each pullRequests}}
+            {{> itemViewPullRequest pullRequest=this}}
+        {{/each}}
+    </div>
+    <div>
+        {{#each builds}}
+            {{> itemViewBuild build=this}}
+        {{/each}}
+    </div>
+    <!--<pre>-->
+    <!--<code>{{print this}}</code>-->
+    <!--</pre>-->
 </template>

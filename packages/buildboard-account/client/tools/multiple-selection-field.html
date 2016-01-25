@@ -1,0 +1,9 @@
+<template name="multipleSelectionField">
+    {{#each values}}
+        <label class="mdl-checkbox mdl-js-checkbox mdl-js-ripple-effect">
+            <input type="checkbox" name="{{../name}}" value="{{this}}" checked="{{#if isCurrent ../currentValue}}checked{{/if}}"
+                   class="mdl-checkbox__input js-method js-setting">
+            <span class="mdl-checkbox__label">{{this}}</span>
+        </label>
+    {{/each}}
+</template>

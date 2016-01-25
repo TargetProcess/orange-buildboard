@@ -29,14 +29,7 @@
             {{/if}}
 
             {{#each settings}}
-                <div>
-                    <div class="mdl-textfield mdl-js-textfield">
-                        <input autocomplete="off" name="{{name}}" value="{{currentValue}}"
-                               required="{{#if isRequire}}required{{/if}}"
-                               class="mdl-textfield__input js-setting" type="text"/>
-                        <label class="mdl-textfield__label">{{caption}}</label>
-                    </div>
-                </div>
+                {{> Template.dynamic template=getInput}}
             {{/each}}
             {{#if methods}}
                 <div>Methods</div>
@@ -44,7 +37,8 @@
             {{#each methods}}
                 <div>
                     <label class="mdl-checkbox mdl-js-checkbox mdl-js-ripple-effect">
-                        <input type="checkbox" value="{{name}}" checked="{{#if currentValue}}checked{{/if}}" class="mdl-checkbox__input js-method">
+                        <input type="checkbox" value="{{name}}" checked="{{#if currentValue}}checked{{/if}}"
+                               class="mdl-checkbox__input js-method">
                         <span class="mdl-checkbox__label">{{name}}</span>
                     </label>
                 </div>

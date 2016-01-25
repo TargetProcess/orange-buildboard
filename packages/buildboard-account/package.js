@@ -24,11 +24,14 @@ Package.onUse(function (api) {
         'client/account-item.html',
         'client/account-list.html',
         'client/tools/tool-item.html',
+        'client/tools/text-field.html',
+        'client/tools/multiple-selection-field.html',
         'client/tools/tool-item.js',
         'client/create-account.js',
         'client/edit-account.js',
         'client/account-item.js',
-        'client/account-list.js'
+        'client/account-list.js',
+        'client/tools/multiple-selection-field.js'
     ], 'client');
 
     api.addFiles([

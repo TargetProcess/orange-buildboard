@@ -1,0 +1,10 @@
+<template name="textField">
+    <div>
+        <div class="mdl-textfield mdl-js-textfield">
+            <input autocomplete="off" name="{{name}}" value="{{currentValue}}"
+                   required="{{#if isRequire}}required{{/if}}"
+                   class="mdl-textfield__input js-setting" type="text"/>
+            <label class="mdl-textfield__label">{{caption}}</label>
+        </div>
+    </div>
+</template>

@@ -29,10 +29,33 @@ Template.toolItem.events({
             tool: {}
         };
 
-        formData.settings = t.findAll('.js-setting').reduce(function (values, el) {
-            values[el.name] = el.value;
-            return values;
-        }, {});
+        let settings = t.findAll('.js-setting');
+        let settingsMetadata = this.reactToolData.get().settings;
+
+        function getSettingsValue(type, elements) {
+            switch (type) {
+                case 'multiple selection':
+                    return elements.filter(el => el.checked).map(el => el.value);
+                case 'list':
+                    return elements[0].value.split(',')
+                        .map(i => i.trim())
+                        .filter(i => i);
+                default:
+                    return elements[0].value;
+            }
+        }
+
+        formData.settings = _.chain(settings)
+            .groupBy(el => el.name)
+            .reduce(function (values, els, key) {
+                let metadata = settingsMetadata.filter(m => m.id == key)[0];
+
+                values[key] = getSettingsValue(metadata.type, els);
+
+                return values;
+            }, {})
+            .value();
+
         formData.resources = t.findAll('.js-method').filter(el=>el.checked).map(el => el.value);
         formData.tool = t.findAll('.js-tool-field').reduce(function (values, el) {
             values[el.name] = el.value;
@@ -60,5 +83,13 @@ Template.toolItem.helpers({
     },
     showSave() {
         return this.reactToolData.get().settings;
+    },
+    getInput() {
+        var map = {
+            text: 'textField',
+            list: 'textField',
+            'multiple selection': 'multipleSelectionField'
+        };
+        return map[this.type] || 'textField';
     }
 });

@@ -21,7 +21,6 @@ _.values(collections).forEach(collection => {
     collection.events = events;
 });
 
-
 //tasks
 collections.tasks.events.added
     .subscribe(item => {
@@ -76,7 +75,7 @@ collections.branches.events.added
                 id: item.wid
             },
             {
-                $push: {'branches': item}
+                $push: {branches: item}
             }
         );
     });
@@ -176,18 +175,18 @@ collections.builds.events.added
         };
         if (item.pullRequest) {
             query['branches.pullRequest.id'] = item.pullRequest;
-        }
-        else {
+        } else {
             query['branches.id'] = item.branch;
         }
         Items.update(query, {
-            '$push': {
-                builds: {
-                    '$each': [item],
-                    '$sort': {timestamp: -1}
+                $push: {
+                    builds: {
+                        $each: [item],
+                        $sort: {timestamp: -1}
+                    }
                 }
             }
-        });
+        );
     });
 collections.builds.events.updated
     .subscribe(item => {
@@ -196,8 +195,7 @@ collections.builds.events.updated
         };
         if (item.pullRequest) {
             query['branches.pullRequest.id'] = item.pullRequest;
-        }
-        else {
+        } else {
             query['branches.id'] = item.branch;
         }
 
@@ -216,8 +214,7 @@ collections.builds.events.removed
         };
         if (item.pullRequest) {
             query['branches.pullRequest.id'] = item.pullRequest;
-        }
-        else {
+        } else {
             query['branches.id'] = item.branch;
         }
 
@@ -228,10 +225,10 @@ collections.builds.events.removed
             },
             {
                 $pull: {
-                    'builds': {id: 'item.id'}
+                    builds: {id: 'item.id'}
                 }
             }
-        )
+        );
     });
 
 //jobs
@@ -243,7 +240,7 @@ collections.jobs.events.added
                 'builds.id': item.build
             },
             {
-                '$push': {
+                $push: {
                     'builds.$.jobs': item
                 }
             }

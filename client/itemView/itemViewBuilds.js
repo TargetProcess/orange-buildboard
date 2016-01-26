@@ -1,18 +1,17 @@
-function tree(){
+function tree() {
     let build = this;
     let jobs = build.jobs;
     let roots = build.jobs.filter(j => !j.parent);
 
-    debugger;
     roots.forEach(r => treeify(r, jobs));
 
     return roots;
 }
 
-function treeify(current, jobs){
+function treeify(current, jobs) {
     let children = jobs.filter(j => j.parent == current.number);
 
-    if (!children || !children.length){
+    if (!children || !children.length) {
         return current;
     }
 

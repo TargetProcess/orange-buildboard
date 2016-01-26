@@ -29,14 +29,14 @@ Meteor.methods({
                 .map((resource, key)=> {
                     let keysValues = _.pairs(resource);
                     let parameterlessMethods = keysValues.filter(([method, action]) => {
-                        return !action.params || !_.some(action.params, p => p.required)
+                        return !action.params || !_.some(action.params, p => p.required);
                     });
                     let actualResource = _.object(parameterlessMethods);
 
                     return _.extend({
                         name: key,
                         currentValue: currentSettings.resources.indexOf(key) !== -1
-                    }, actualResource)
+                    }, actualResource);
                 })
                 .filter(resource => _.keys(resource).length > 1)
                 .value();

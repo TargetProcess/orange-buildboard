@@ -1,5 +1,11 @@
 <template name="itemView">
-    <pre>
-        <code>{{print this}}</code>
-    </pre>
+    {{#if tasks}}
+        {{> itemViewTasks tasks=tasks}}
+    {{/if}}
+    {{#if branches }}
+        {{> itemViewBranches branches=branches}}
+    {{/if}}
+    {{#if builds}}
+        {{> itemViewBuilds builds=builds}}
+    {{/if}}
 </template>

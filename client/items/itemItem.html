@@ -22,8 +22,8 @@
         </td>
 
         <td class="mdl-data-table__cell--non-numeric">
-            <a href="{{lastBuild item 'url'}}">
-                {{lastBuild item 'status'}}
+            <a href="{{first item.builds 'url'}}">
+                {{first item.builds 'status'}}
             </a>
         </td>
     </tr>

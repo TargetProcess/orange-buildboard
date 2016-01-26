@@ -21,7 +21,6 @@ _.values(collections).forEach(collection => {
     collection.events = events;
 });
 
-
 //tasks
 collections.tasks.events.added
     .subscribe(item => {
@@ -76,7 +75,7 @@ collections.branches.events.added
                 id: item.wid
             },
             {
-                $push: {'branches': item}
+                $push: {branches: item}
             }
         );
     });
@@ -172,51 +171,109 @@ collections.pullRequests.events.removed
 collections.builds.events.added
     .subscribe(item => {
         let query = {
-            account: item.account,
-            $or: [
-                {'branches.lastBuild': {$exists: false}},
-                {'branches.lastBuild.timestamp': {$lt: item.timestamp}}
-            ]
+            account: item.account
         };
         if (item.pullRequest) {
             query['branches.pullRequest.id'] = item.pullRequest;
-        }
-        else {
+        } else {
             query['branches.id'] = item.branch;
         }
-        Items.update(query,
-            {
-                $set: {
-                    'branches.$.lastBuild': item
+        Items.update(query, {
+                $push: {
+                    builds: {
+                        $each: [item],
+                        $sort: {timestamp: -1}
+                    }
                 }
             }
-        )
+        );
     });
 collections.builds.events.updated
     .subscribe(item => {
+        let query = {
+            account: item.account
+        };
+        if (item.pullRequest) {
+            query['branches.pullRequest.id'] = item.pullRequest;
+        } else {
+            query['branches.id'] = item.branch;
+        }
+
+        Items.update(query,
+            {
+                $set: {
+                    'builds.$': item
+                }
+            }
+        );
+    });
+collections.builds.events.removed
+    .subscribe(item => {
+        let query = {
+            account: item.account
+        };
+        if (item.pullRequest) {
+            query['branches.pullRequest.id'] = item.pullRequest;
+        } else {
+            query['branches.id'] = item.branch;
+        }
+
         Items.update(
             {
                 account: item.account,
                 'branches.lastBuild.id': item.id
             },
             {
-                $set: {
-                    'branches.$.lastBuild': item
+                $pull: {
+                    builds: {id: 'item.id'}
                 }
             }
-        )
+        );
     });
-collections.builds.events.removed
+
+//jobs
+collections.jobs.events.added
     .subscribe(item => {
         Items.update(
             {
                 account: item.account,
-                'branches.lastBuild.id': item.id
+                'builds.id': item.build
             },
             {
-                $unset: {
-                    'branches.$.lastBuild': ''
+                $push: {
+                    'builds.$.jobs': item
                 }
             }
-        )
+        );
+    });
+//won't work
+//collections.jobs.events.updated
+//    .subscribe(item => {
+//        Items.update(
+//            {
+//                account: item.account,
+//                'builds.id': item.build,
+//                'builds.jobs.id': item.id
+//            },
+//            {
+//                '$set': {
+//                    'builds.$.jobs.$': item
+//                }
+//            }
+//        );
+//    });
+collections.jobs.events.removed
+    .subscribe(item => {
+        Items.update(
+            {
+                account: item.account,
+                'builds.id': item.build,
+                'builds.jobs.id': item.id
+            },
+            {
+                $pull: {
+                    'builds.$.jobs': {id: item.id}
+                }
+            }
+        );
     });

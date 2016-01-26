@@ -1,0 +1,23 @@
+<template name="itemViewBuilds">
+    <div class="mdl-card mdl-cell mdl-cell--12-col">
+        <div class="mdl-card__title">
+            <h2 class="mdl-card__title-text">Builds</h2>
+        </div>
+        <table class="mdl-data-table mdl-js-data-table builds">
+            <tbody>
+            {{#each builds}}
+                <tr class="build-info">
+                    <td class="mdl-data-table__cell--non-numeric"><a href="{{url}}">{{number}}</a></td>
+                    <td class="mdl-data-table__cell--non-numeric">{{timestamp}}</td>
+                    <td class="mdl-data-table__cell--non-numeric">{{status}}</td>
+                </tr>
+                <tr class="build-info-details" style="display: none;">
+                    <td colspan="3" class="mdl-data-table__cell--non-numeric">
+                        {{> itemViewBuildJobs tree}}
+                    </td>
+                </tr>
+            {{/each}}
+            </tbody>
+        </table>
+    </div>
+</template>
